@@ -23,14 +23,6 @@ export default function Home() {
       </section>
 
       <section>
-        <h2 className="section-title">{t('home.howTitle')}</h2>
-        <ol className="steps">
-          {STEPS.map((s, i) => <li key={s}><span className="step-n">{i + 1}</span><div><strong>{t(`home.steps.${s}.title`)}</strong><p>{t(`home.steps.${s}.text`)}</p></div></li>)}
-        </ol>
-        <p className="hint">{t('home.hint')}</p>
-      </section>
-
-      <section>
         <h2 className="section-title">{t('home.chooseTrack')}</h2>
         <div className="grid">
           {TRACKS.map(x => {
@@ -50,6 +42,14 @@ export default function Home() {
               : <a key={x.id} className={`card track-card hue-${x.hue}`} href={href('track', x.id)}>{inner}</a>;
           })}
         </div>
+      </section>
+
+      <section>
+        <h2 className="section-title">{t('home.howTitle')}</h2>
+        <ol className="steps">
+          {STEPS.map((s, i) => <li key={s}><span className="step-n">{i + 1}</span><div><strong>{t(`home.steps.${s}.title`)}</strong><p>{t(`home.steps.${s}.text`)}</p></div></li>)}
+        </ol>
+        <p className="hint">{t('home.hint')}</p>
       </section>
 
       <section className="band">

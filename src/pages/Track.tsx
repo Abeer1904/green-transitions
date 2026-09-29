@@ -36,6 +36,10 @@ export default function Track({ id }: { id: string }) {
       <p className="lead">{tr.tagline}</p>
       {base.status === 'preview' && <p className="box box-note"><Trans i18nKey="track.preview" components={{ b: <strong /> }} /></p>}
 
+      <div className="track-shortcuts">
+        {journey && <a className="btn" href={href('see', base.id)}>{t('engineering.map')} →</a>}
+        <a className="btn btn-ghost" href={href('skills', base.id)}>{t('engineering.skills')} →</a>
+      </div>
       <ol className="path">
         <li>
           <span className="step-n">1</span>

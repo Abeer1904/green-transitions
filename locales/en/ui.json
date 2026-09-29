@@ -249,7 +249,7 @@
     "all": "Whole system",
     "caution": "The scene illustrates a possible arrangement. Installation alone does not guarantee income, crop growth or reliable service.",
     "biogas": {
-      "description": "A household, cattle shed, digester and field. At operating stages, numbered paths show collected dung entering the digester, gas reaching the kitchen and slurry going to the field.",
+      "description": "Cross-section of a fixed-dome biogas plant: mixing tank, sealed digester with gas headspace, gas pipe and valve, condensate drain, stove, outlet chamber and slurry collection.",
       "input": "Dung in",
       "energy": "Gas to kitchen",
       "output": "Slurry to fields",
@@ -260,7 +260,7 @@
       "outputDetail": "Slurry leaves through the outlet. Handling, processing and arrangements with farmers need planning; crop benefits and sales are not automatic."
     },
     "solar": {
-      "description": "A village home, grid connection, solar array, controller, pump and field. Numbered paths distinguish sunlight, electrical energy and water.",
+      "description": "Solar irrigation system: PV array, pump controller, separate electrical cable and rising water main, submersible pump, water storage tank and irrigation outlet.",
       "input": "Sunlight",
       "energy": "Electricity",
       "output": "Water",
@@ -269,6 +269,54 @@
       "inputDetail": "Panels convert sunlight into electrical energy. Site assessment considers sunlight and shading; the diagram does not predict output.",
       "energyDetail": "The electrical connection powers the pump through its controller. Qualified installers and maintenance technicians handle technical work. Rooftop solar alone does not imply outage backup.",
       "outputDetail": "The pump moves available water to irrigation. Water assessment, access rules and sustainable use remain necessary; solar power does not create groundwater."
+    }
+  },
+  "engineering": {
+    "ground": "Ground level",
+    "section": "Conceptual section · not to scale",
+    "planning": "Proposed system",
+    "construction": "Installation & training",
+    "operating": "Operating system",
+    "components": "Inside the system",
+    "sources": "Technical references & scope",
+    "scope": "One reference arrangement is shown. Dimensions, gas treatment, electrical protection and controls must be specified for the site. Animated flows show direction, not speed or output.",
+    "stage": "Step {{n}} of {{total}}",
+    "map": "Explore the system map",
+    "skills": "Find a skill pathway",
+    "scroll": "Swipe to inspect the full diagram →",
+    "biogas": {
+      "mixing": "Mixing tank",
+      "gas": "Gas headspace",
+      "digester": "Sealed digester",
+      "outlet": "Outlet chamber",
+      "slurry": "Slurry collection",
+      "stove": "Biogas stove",
+      "valve": "Shutoff valve",
+      "trap": "Condensate drain",
+      "title": "Fixed-dome biogas plant",
+      "notes": [
+        "Feed: collected dung is mixed with water before entering the sealed digester.",
+        "Digestion: microbes break down material without oxygen; biogas collects above the slurry.",
+        "Gas: a separate pipe carries gas through a valve to the appliance; condensate needs managed drainage.",
+        "Displacement: gas pressure moves slurry into the outlet chamber. Overflow goes to collection for managed use."
+      ]
+    },
+    "solar": {
+      "waterTable": "Groundwater level (illustrative)",
+      "sun": "Solar radiation",
+      "array": "PV array & mounting",
+      "controller": "Pump controller",
+      "tank": "Water storage tank",
+      "irrigation": "Irrigation outlet",
+      "pump": "Submersible pump",
+      "main": "Rising main",
+      "title": "Solar-powered irrigation",
+      "notes": [
+        "Capture: PV modules convert sunlight into electricity. Output varies with sunlight, temperature and shading.",
+        "Control: a compatible pump controller regulates motor operation; protection and earthing are part of the installation.",
+        "Lift: a submerged pump lifts groundwater through the rising main. Required power depends on flow and total head.",
+        "Use: stored water supplies irrigation. Tank-level and dry-run controls, water availability and extraction limits need planning."
+      ]
     }
   }
 }

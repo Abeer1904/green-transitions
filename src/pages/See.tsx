@@ -59,12 +59,13 @@ export default function See({ id }: { id: string }) {
   const [i, setI] = useState(0);
   const [paused, setPaused] = useState(false);
   const [focus, setFocus] = useState("all");
+  const [showComponents, setShowComponents] = useState(false);
   const count = journey?.stages.length ?? 1;
   useEffect(() => { if (raw) markSeen(id); }, [id, raw]);
   useEffect(() => { setI(0); }, [id]);
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.target instanceof HTMLElement && /INPUT|TEXTAREA|SELECT/.test(e.target.tagName)) return;
+      if (e.target instanceof HTMLElement && (/INPUT|TEXTAREA|SELECT|BUTTON|SUMMARY/.test(e.target.tagName) || e.target.isContentEditable || e.target.closest('.scene-wrap'))) return;
       if (e.key === 'ArrowRight') setI(v => Math.min(v + 1, count - 1));
       if (e.key === 'ArrowLeft') setI(v => Math.max(v - 1, 0));
     };
@@ -88,13 +89,14 @@ export default function See({ id }: { id: string }) {
 
       <div className="stage-card">
         <div className="scene-tools">
-          <span>{t('sceneDetail.schematic')}</span>
+          <div><p className="eyebrow">{t(i < 3 ? 'engineering.planning' : i === 3 ? 'engineering.construction' : 'engineering.operating')}</p><strong>{t(`engineering.${id}.title`)}</strong></div>
           <button className="pill" aria-pressed={paused} onClick={() => setPaused(p => !p)}>{t(paused ? 'sceneDetail.resume' : 'sceneDetail.pause')}</button>
         </div>
-        <div className={`scene-wrap focus-${focus} ${paused ? 'scene-paused' : ''}`}>
+        <p className="diagram-scroll-hint">{t('engineering.scroll')}</p>
+        <div className={`scene-wrap focus-${focus} ${paused ? 'scene-paused' : ''}`} tabIndex={0} role="region" aria-label={t(`engineering.${id}.title`)}>
 
           {id === 'biogas' ? <BiogasScene stage={i} label={label} /> : <SolarScene stage={i} label={label} />}
-          <span className="scene-badge">{s.day}</span>
+          
         </div>
         <div className="scene-explainer">
           <div className="scene-flow-controls" role="group" aria-label={t('sceneDetail.focus')}>
@@ -102,7 +104,9 @@ export default function See({ id }: { id: string }) {
             {['input', 'energy', 'output'].map((kind, n) => <button key={kind} className="pill" aria-pressed={focus === kind} onClick={() => setFocus(kind)}><span className={`flow-key flow-key-${id}-${kind}`}>{n + 1}</span>{t(`sceneDetail.${id}.${kind}`)}</button>)}
           </div>
           <p className="scene-flow-caption" aria-live="polite">{t(i < 4 ? `sceneDetail.${id}.before` : `sceneDetail.${id}.${focus}Detail`)}</p>
-          <p className="fine">{t('sceneDetail.caution')}</p>
+          <button className="link-btn" aria-expanded={showComponents} onClick={() => setShowComponents(v => !v)}>{t('engineering.components')} {showComponents ? '−' : '+'}</button>
+          {showComponents && <ol className="component-notes">{(t(`engineering.${id}.notes`, { returnObjects: true }) as string[]).map(note => <li key={note}>{note}</li>)}</ol>}
+          <details className="diagram-sources"><summary>{t('engineering.sources')}</summary><p>{t('engineering.scope')}</p><a href={id === 'biogas' ? 'https://energypedia.info/images/2/2c/Biogas_gate_volume_2.pdf' : 'https://www.fao.org/fileadmin/user_upload/gacsa/docs/GACSA_Practice_brief_SolarIrrigation_v5.pdf'} target="_blank" rel="noreferrer">{id === 'biogas' ? 'GTZ / ISAT · Biogas Digest, Volume II' : 'FAO / GACSA · Solar-powered irrigation'} ↗</a></details>
         </div>
         <div className="rail" role="group" aria-label={t('see.rail')}>
           <span className="rail-end">0</span>
@@ -116,7 +120,7 @@ export default function See({ id }: { id: string }) {
           <span className="rail-end">1</span>
         </div>
         <div className="stage-body">
-          <p className="eyebrow">{s.day}</p>
+          <p className="eyebrow">{t('engineering.stage', { n: i + 1, total: count })}</p>
           <h2>{s.title}</h2>
           <p className="stage-state">{s.state}</p>
           <div className="cols">
