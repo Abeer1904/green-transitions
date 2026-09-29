@@ -1,0 +1,274 @@
+{
+  "meta": {
+    "title": "Gram Urja: village energy, from 0 to 1",
+    "description": "Learn how a village can move to clean energy, and the skills that make it work. Readings, scenarios, quizzes and a 0 to 1 view for biogas and solar."
+  },
+  "brand": "Gram Urja",
+  "skip": "Skip to content",
+  "language": "Language",
+  "nav": {
+    "main": "Main",
+    "home": "Home",
+    "skills": "Skills"
+  },
+  "footer": "Gram Urja is a learning tool for village energy transitions. Content adapted from the Green Skill directory for rural Haryana. Details of schemes, prices and courses change, so always confirm them.",
+  "common": {
+    "notFound": "Page not found",
+    "backToStart": "Back to the start",
+    "minutes": "{{count}} min",
+    "talkTogether": "Talk about it together",
+    "readMore": "Read more: {{title}}",
+    "readMoreArrow": "Read more: {{title}} →"
+  },
+  "home": {
+    "eyebrow": "Malai and villages like it · Haryana",
+    "title": "How does a village get from <zero>0</zero> to <one>1</one> on clean energy?",
+    "lead": "Not with a machine alone. With a need, some numbers, an agreement, and <b>people who have the skills</b> to build it and keep it working. Learn it, try it, then plan it together.",
+    "startWith": "Start with {{name}}",
+    "howTitle": "How this works",
+    "steps": {
+      "read": {
+        "title": "Read",
+        "text": "Short readings from the Green Skill directory, in plain language."
+      },
+      "see": {
+        "title": "See",
+        "text": "Walk from 0 to 1: watch a working service grow, step by step."
+      },
+      "try": {
+        "title": "Try",
+        "text": "Make decisions in real village situations. See what follows."
+      },
+      "check": {
+        "title": "Check",
+        "text": "A short quiz. Nobody is watching. Try again as often as you like."
+      },
+      "skills": {
+        "title": "Skills",
+        "text": "Who does what, where they train, and who can join."
+      },
+      "plan": {
+        "title": "Plan",
+        "text": "Turn what you learned into your village’s own pathway."
+      }
+    },
+    "hint": "Best done together: one person reads aloud, the group decides.",
+    "chooseTrack": "Choose a track",
+    "status": {
+      "live": "Ready",
+      "preview": "Preview",
+      "soon": "Coming soon"
+    },
+    "readingCount_one": "{{count}} reading",
+    "readingCount_other": "{{count}} readings",
+    "doneCount": "{{count}} done",
+    "view01": "0→1 view",
+    "skillsBandTitle": "The skills directory",
+    "skillsBandText": "{{count}} roles across the tracks: what each person does, where to train, what it costs, and who can join. It also shows the barriers, such as courses that need months away from home.",
+    "browseSkills": "Browse the skills",
+    "scenariosTitle": "{{count}} village scenarios",
+    "scenariosText": "Decision trees where every choice has a result. Weigh land, money, water, people, and time. There is more than one good ending, and more than one way to go wrong.",
+    "fine": "Content is adapted from the <i>Renewable Energy and Green Skills Directory for Mapping Renewable Energy Possibilities in Rural Haryana</i>. Names of organisations, courses, prices and schemes are leads to check, not guaranteed offers. Progress is kept only in this browser."
+  },
+  "track": {
+    "preview": "<b>Preview.</b> The directory only has a short section on this so far. Costs, set-up steps and a Day 1–365 path are still to come.",
+    "soonNote": "The Green Skill directory names this track but does not yet develop it. When it does, readings, scenarios and skills will appear here in the same shape as biogas and solar.",
+    "readTitle": "Read",
+    "readDesc_one": "{{count}} short reading. {{done}} finished.",
+    "readDesc_other": "{{count}} short readings. {{done}} finished.",
+    "seeTitle": "See it grow, from 0 to 1",
+    "openAgain": "Open again",
+    "open01": "Open the 0→1 view",
+    "tryTitle": "Try a decision",
+    "tryDesc": "Situations with real choices. Every path teaches something.",
+    "chipSkills": "Skills",
+    "chipVillage": "Village decision",
+    "endingsFound": "{{minutes}} min · {{found}}/{{total}} endings found",
+    "checkTitle": "Check what stuck",
+    "checkDesc": "{{count}} questions with reasons.",
+    "best": "Your best: {{best}} of {{total}}.",
+    "takeQuiz": "Take the quiz",
+    "skillsTitle": "Skills people need",
+    "skillsDesc": "{{count}} roles, with where to train and who can join.",
+    "seeSkills": "See {{name}} skills",
+    "pathTitle": "Our pathway",
+    "pathDesc": "Discuss each step as a village and write down what you decide.",
+    "pathFilled_one": "{{count}} step filled in.",
+    "pathFilled_other": "{{count}} steps filled in.",
+    "planBtn": "Plan our pathway"
+  },
+  "reading": {
+    "crumb": "Reading {{i}} of {{n}}",
+    "kind": {
+      "reading": "Reading",
+      "story": "Story",
+      "script": "Script"
+    },
+    "source": "Source: Green Skill directory, page {{page}}. Check current details before acting.",
+    "finished": "Finished",
+    "next": "Next",
+    "toTrack": "back to track"
+  },
+  "see": {
+    "eyebrow": "From 0 to 1",
+    "title": "{{name}}: from nothing to a service that works",
+    "scene": "Picture of the village at {{day}}: {{title}}. {{state}}",
+    "rail": "Steps from 0 to 1",
+    "people": "What people do",
+    "skills": "Skills needed",
+    "noSkills": "None yet. This is where we start.",
+    "ask": "Ask together",
+    "watch": "Watch out",
+    "back": "← Back",
+    "next": "Next: {{title}} →",
+    "done": "Done → back to track",
+    "oneMeans": "What “1” means",
+    "backToTrack": "Back to {{name}}",
+    "plan": "Plan our pathway →",
+    "feed": {
+      "title": "Try the numbers: is there enough dung?",
+      "prompt": "Move the slider to the number of cattle in a household.",
+      "cattle": "Cattle:",
+      "unit": "{{n}} cattle",
+      "caption": "About <b>{{kg}} kg</b> of dung a day, against the <b>≈50 kg</b> a 2 m³ plant typically needs.",
+      "good": "This is about what a 2 m³ household plant is typically fed. Next: check what can really be collected each day, in every season.",
+      "mid": "The directory says households with 3 or more cattle can consider a plant, but a 2 m³ plant is usually fed by 4–5 animals. Ask a trained mason, or think about sharing with a neighbour.",
+      "low": "This is well short of what a small plant usually needs. Households like this can pool dung through an SHG, or join a community plant.",
+      "fine": "A rough rule, worked out from the directory’s figure of about 50 kg a day for 4–5 animals. Real amounts depend on the animals, feed and how much dung is actually collected."
+    },
+    "sub": {
+      "title": "Try the numbers: how much subsidy for a rooftop?",
+      "prompt": "PM Surya Ghar, as the directory describes it. Move the slider to the size of the system.",
+      "size": "System size:",
+      "unit": "{{n}} kilowatts",
+      "caption": "Subsidy: <b>{{amount}}</b>",
+      "over": "The subsidy stops at 3 kW (₹78,000). Anything bigger gets no extra subsidy, so every extra kW is paid in full.",
+      "cap": "At 3 kW the subsidy reaches its cap of ₹78,000.",
+      "base": "The first 2 kW get ₹30,000 per kW. The band from 2 to 3 kW gets ₹18,000 per kW.",
+      "fine": "Rates are as given in the directory. Confirm current amounts on the official portal or with HAREDA before deciding."
+    }
+  },
+  "scene": {
+    "countDung": "Count dung",
+    "agreeSite": "Agree the site",
+    "buildTrain": "Build + train",
+    "gasSlurry": "Gas + slurry",
+    "briquettes": "Briquettes?",
+    "holdingUp": "Is it holding up?",
+    "power12": "Power only ~12 hrs",
+    "waterTest": "Water test",
+    "sunTest": "Sun test",
+    "pickSite": "Pick the site",
+    "trainDemo": "Train + demo",
+    "stillWorking": "Still working?"
+  },
+  "scenario": {
+    "crumb": "Decision",
+    "eyebrowVillage": "Village decision",
+    "eyebrowSkills": "Skills choice",
+    "found": "{{found}}/{{total}} endings found",
+    "youChose": "You chose: <b>{{label}}</b>",
+    "directorySays": "What the directory says",
+    "whatDo": "What do you do?",
+    "outcome": {
+      "strong": "A strong path",
+      "mixed": "It could work, but…",
+      "weak": "Hard lessons"
+    },
+    "takeThis": "Take this with you.",
+    "count": "{{found}} of {{total}} endings found in this scenario. Try another path to find the rest.",
+    "oneBack": "← One step back",
+    "again": "Start again",
+    "goBack": "← Go back one step"
+  },
+  "quiz": {
+    "crumb": "Check",
+    "title": "Check what stuck: {{name}}",
+    "question": "Question {{n}} of {{total}}",
+    "answers": "Answers",
+    "choose": "Choose…",
+    "checkMatches": "Check my matches",
+    "allMatched": "All matched.",
+    "pairsAre": "Not quite. The correct pairs are:",
+    "continue": "Continue",
+    "yes": "Yes.",
+    "notQuite": "Not quite.",
+    "nextQ": "Next question",
+    "seeResult": "See my result",
+    "done": "Done",
+    "score": "{{score}} of {{total}}",
+    "resultAll": "All of them. Time to plan, or try a scenario.",
+    "resultGood": "A good start. The readings will fill the gaps. Try again whenever you like.",
+    "resultLow": "This is what practice is for. Read a few sections, then try again.",
+    "again": "Try again",
+    "back": "Back to {{name}}"
+  },
+  "skills": {
+    "crumb": "Skills directory",
+    "title": "The skills directory",
+    "lead": "Every plant and system needs people. Here is what each role does, where to train, and who can join. Tap a role to open it.",
+    "warnTitle": "Leads to check, not offers",
+    "warn": "Course names, durations, costs and entry rules come from the directory. Call the provider to confirm dates, fees, where it is held, and what certificate you receive.",
+    "track": "Track",
+    "kindGroup": "Kind of work",
+    "all": "All",
+    "anyKind": "Any kind of work",
+    "kind": {
+      "Technical": "Technical",
+      "Operation": "Operation",
+      "Business": "Business",
+      "Records": "Records",
+      "Testing": "Testing"
+    },
+    "search": "Search",
+    "placeholder": "mason, pump, records…",
+    "count_one": "{{count}} role",
+    "count_other": "{{count}} roles",
+    "where": "Where to train",
+    "who": "Who can join",
+    "note": "Note",
+    "neededIn": "Needed in the 0→1 journey at: {{days}}",
+    "page": "Directory page {{page}}",
+    "none": "No roles match. Try clearing a filter."
+  },
+  "pathway": {
+    "crumb": "Our pathway",
+    "title": "Our {{name}} pathway",
+    "lead": "Go through each step as a group. Answer the questions, and write down what you decide and who will do it. The directory’s Day 1–365 is a guide; change it to fit your village.",
+    "print": "Print or save as PDF",
+    "saved": "Your notes are saved only in this browser on this device.",
+    "decided": "What did we decide?",
+    "who": "Who will do it, and by when?",
+    "watch": "Watch out:"
+  },
+  "sceneDetail": {
+    "schematic": "How the system connects · schematic, not an installation plan",
+    "pause": "Pause motion",
+    "resume": "Resume motion",
+    "focus": "Explore a flow",
+    "all": "Whole system",
+    "caution": "The scene illustrates a possible arrangement. Installation alone does not guarantee income, crop growth or reliable service.",
+    "biogas": {
+      "description": "A household, cattle shed, digester and field. At operating stages, numbered paths show collected dung entering the digester, gas reaching the kitchen and slurry going to the field.",
+      "input": "Dung in",
+      "energy": "Gas to kitchen",
+      "output": "Slurry to fields",
+      "before": "First, understand demand, secure inputs, agree responsibilities and prepare trained people. The operating flows appear once the plant is shown in use.",
+      "allDetail": "1. Collectable dung feeds the plant. 2. Gas goes to the kitchen. 3. Slurry has a separate route to agricultural use. Each connection needs people and an operating arrangement.",
+      "inputDetail": "The aggregator and operator organise reliable collection and daily feeding. Cattle count alone does not tell you how much dung can actually reach the plant.",
+      "energyDetail": "Gas leaves the digester through a separate connection to the kitchen. Trained operators and qualified maintenance support are needed to keep the service working.",
+      "outputDetail": "Slurry leaves through the outlet. Handling, processing and arrangements with farmers need planning; crop benefits and sales are not automatic."
+    },
+    "solar": {
+      "description": "A village home, grid connection, solar array, controller, pump and field. Numbered paths distinguish sunlight, electrical energy and water.",
+      "input": "Sunlight",
+      "energy": "Electricity",
+      "output": "Water",
+      "before": "First, assess energy and water needs, choose an appropriate site and prepare the installation team. A demonstration is followed by an operating pump arrangement.",
+      "allDetail": "1. Sunlight reaches the panels. 2. Electricity passes through a controller to the pump. 3. Water travels in a separate pipe. Rooftop solar is a separate application.",
+      "inputDetail": "Panels convert sunlight into electrical energy. Site assessment considers sunlight and shading; the diagram does not predict output.",
+      "energyDetail": "The electrical connection powers the pump through its controller. Qualified installers and maintenance technicians handle technical work. Rooftop solar alone does not imply outage backup.",
+      "outputDetail": "The pump moves available water to irrigation. Water assessment, access rules and sustainable use remain necessary; solar power does not create groundwater."
+    }
+  }
+}
