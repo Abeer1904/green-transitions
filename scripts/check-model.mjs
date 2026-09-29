@@ -1,0 +1,17 @@
+import ts from 'typescript';
+import fs from 'node:fs';
+import vm from 'node:vm';
+import assert from 'node:assert/strict';
+const js=ts.transpileModule(fs.readFileSync('src/model.ts','utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2021}}).outputText;
+const exports={};vm.runInNewContext(js,{exports});
+const {createWorkspace,recordLearning,learningKey,parseWorkspace,exportVillage}=exports;
+let s=createWorkspace();
+const key=learningKey('biogas','individual','quiz');s=recordLearning(recordLearning(s,key),key);assert.equal(s.learning.length,1);
+s.name='Private name';s.support=['care'];s.evidence=[{id:'1',track:'biogas',scope:'individual',milestone:0,note:'Private observation',date:new Date().toISOString(),shared:false},{id:'2',track:'biogas',scope:'individual',milestone:0,note:'Anonymous shared observation',date:new Date().toISOString(),shared:true}];
+const village=JSON.stringify(exportVillage(s,'biogas'));assert.ok(village.includes('Anonymous shared observation'));assert.ok(!village.includes('Private'));assert.ok(!village.includes('care'));
+assert.equal(parseWorkspace(JSON.stringify(s)).evidence.length,2);
+assert.throws(()=>parseWorkspace(JSON.stringify({...s,evidence:[{...s.evidence[0],milestone:99}]})));
+assert.throws(()=>parseWorkspace(JSON.stringify({...s,learning:['invented:certification']})));
+assert.throws(()=>parseWorkspace('{broken'));
+assert.equal(JSON.stringify(exportVillage(recordLearning(s,'biogas:village:quiz'),'biogas')),village);
+console.log('PASS: idempotent learning, private export exclusion, backup validation, and learning/readiness separation.');

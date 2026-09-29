@@ -1,0 +1,95 @@
+export type Scope = "individual" | "village";
+export type TrackId = "biogas" | "solar";
+export type Stage = "Learn" | "Test" | "Build" | "Pathways";
+export type Exercise = "decision" | "quiz" | "match";
+export const STAGES: Stage[] = ["Learn", "Test", "Build", "Pathways"];
+export const TRACKS = {
+  biogas: {
+    title: "Biogas & local livelihoods", short: "Biogas", resource: "Cattle dung, organic waste, water and daily care",
+    lesson: "A biogas opportunity starts with reliable feedstock, water, space and a clear cooking need. Household and community plants need different ownership and operating arrangements. Slurry use belongs in the plan from the beginning.",
+    question: "A household has cattle and wants cleaner cooking. What is the first useful step?",
+    choices: ["Choose a plant using cattle count alone", "Measure collectable dung and assess water, space and cooking needs", "Assume a subsidy makes the project suitable"],
+    explanation: "Collectable feedstock varies. A local baseline helps a qualified technical partner assess suitability; cattle numbers and scheme eligibility alone are insufficient.",
+    villageQuestion: "Several households want a shared biogas plant. What must the group settle before commissioning it?",
+    villageChoices: ["A launch date and a name", "Feedstock commitments, ownership, operating roles and affordable user arrangements", "The number of lessons residents have completed"],
+    roles: ["Plant mason", "Plant operator", "Feedstock aggregator"], tasks: ["Construct the plant", "Manage daily feeding and operating records", "Organise reliable feedstock collection"],
+    field: "With permission, document one household’s cooking needs, collectable feedstock and seasonal changes. Do not inspect or operate equipment.",
+    villageField: "Bring household observations together into an anonymous feedstock and needs assessment. Record missing information, proposed ownership and whose voices are absent.",
+    careers: ["Biogas plant operator", "Biogas plant mason", "Feedstock service provider"],
+    day: "Follow trained operating procedures, maintain records and refer faults to qualified personnel.",
+  },
+  solar: {
+    title: "Solar & reliable village services", short: "Solar", resource: "Energy needs, suitable sites, existing skills and maintenance",
+    lesson: "Start with the service required: household electricity, a public building or irrigation. Site conditions, loads and maintenance shape the system. Irrigation also needs a water assessment. A system’s behaviour during outages depends on its design.",
+    question: "A family wants power during outages. What should you establish first?",
+    choices: ["That any rooftop solar system will provide backup", "The essential loads, outage pattern and whether the proposed design supports backup", "The largest panel array that fits"],
+    explanation: "Solar generation and backup are different requirements. Define the service need and ask a qualified installer to assess a suitable design.",
+    villageQuestion: "A village is considering a shared solar pump. What should happen before choosing equipment?",
+    villageChoices: ["Buy the most powerful pump", "Assess water conditions, irrigation needs, access rules and operating responsibilities", "Count completed quizzes as site approval"],
+    roles: ["PV technician", "Site assessor", "Community pump coordinator"], tasks: ["Install and maintain within training and authorisation", "Assess site conditions and service needs", "Coordinate access and keep usage records"],
+    field: "With permission, record a building’s essential electricity needs and outage pattern. Leave electrical inspection and measurements to qualified people.",
+    villageField: "Map priority electricity services and potential sites. For irrigation, record the water assessment needed, intended users and access arrangements.",
+    careers: ["Solar technician", "Solar maintenance service provider", "Community energy coordinator"],
+    day: "Work with a qualified team on site assessment, installation or maintenance within your training and authorisation.",
+  },
+} as const;
+export const SUPPORT = [
+  { id: "nearby", title: "Training close to home", action: "Ask providers about local sessions and actual travel requirements." },
+  { id: "care", title: "Flexible hours or care support", action: "Agree suitable session times and investigate available care support." },
+  { id: "phone", title: "Shared phone or assisted learning", action: "Arrange supported access and a private way to manage your records." },
+  { id: "mentor", title: "A woman mentor or peer group", action: "Identify mentors while keeping all technical and enterprise routes open." },
+  { id: "paid", title: "Paid practice or equipment access", action: "Explore paid placements and equipment access; confirm terms before committing." },
+];
+export type Evidence = { id: string; track: TrackId; scope: Scope; milestone: number; note: string; date: string; shared: boolean };
+export type VillagePlan = { priority: string; owner: string; nextAction: string; participation: string; resources: string };
+export type Workspace = { version: 1; name: string; experience: string; role: string; support: string[]; learning: string[]; evidence: Evidence[]; village: Record<TrackId, VillagePlan> };
+export const emptyPlan = (): VillagePlan => ({ priority: "", owner: "", nextAction: "", participation: "", resources: "" });
+export const createWorkspace = (): Workspace => ({ version: 1, name: "", experience: "", role: "", support: [], learning: [], evidence: [], village: { biogas: emptyPlan(), solar: emptyPlan() } });
+export const learningKey = (track: TrackId, scope: Scope, exercise: Exercise | "lesson") => `${track}:${scope}:${exercise}`;
+export function recordLearning(state: Workspace, key: string): Workspace { return { ...state, learning: [...new Set([...state.learning, key])] }; }
+export function villageEvidence(state: Workspace, track: TrackId) { return state.evidence.filter(e => e.track === track && (e.scope === "village" || e.shared)); }
+export function exportVillage(state: Workspace, track: TrackId) { return { village: "Malai", track: TRACKS[track].title, status: "Draft — not technical approval", plan: state.village[track], evidence: villageEvidence(state, track).map(e => ({ note: e.note, date: e.date, milestone: OPPORTUNITY_MAP[e.track][e.milestone].title, status: "Self-reported; review pending" })) }; }
+/** Validate backups before they enter the UI; imported evidence never grants verification. */
+export function parseWorkspace(raw: string): Workspace {
+  const x = JSON.parse(raw);
+  const text = (v: unknown, max = 6000) => typeof v === "string" && v.length <= max;
+  const list = (v: unknown) => Array.isArray(v) && v.length <= 1000;
+  const validKeys = new Set(Object.keys(TRACKS).flatMap(t => ["individual", "village"].flatMap(s => ["lesson", "decision", "quiz", "match"].map(e => `${t}:${s}:${e}`))));
+  if (!x || x.version !== 1 || !text(x.name, 100) || !text(x.experience) || !text(x.role, 150) || !list(x.support) || !x.support.every((v: string) => SUPPORT.some(s => s.id === v)) || !list(x.learning) || !x.learning.every((v: string) => validKeys.has(v)) || !list(x.evidence)) throw new Error("This is not a compatible Green Transitions backup.");
+  const ids = new Set<string>();
+  for (const e of x.evidence) {
+    if (!e || !text(e.id, 100) || ids.has(e.id) || !(e.track === "biogas" || e.track === "solar") || !(e.scope === "individual" || e.scope === "village") || !Number.isInteger(e.milestone) || e.milestone < 0 || e.milestone >= OPPORTUNITY_MAP.biogas.length || !text(e.note) || !e.note.trim() || !text(e.date, 40) || !Number.isFinite(Date.parse(e.date)) || typeof e.shared !== "boolean") throw new Error("The backup contains invalid evidence.");
+    ids.add(e.id);
+  }
+  for (const t of ["biogas", "solar"]) { if (!x.village?.[t] || !Object.keys(emptyPlan()).every(k => text(x.village[t][k]))) throw new Error("The village plan is incomplete or invalid."); }
+  return { version: 1, name: x.name, experience: x.experience, role: x.role, support: [...new Set<string>(x.support)], learning: [...new Set<string>(x.learning)], evidence: x.evidence.map((e: Evidence) => ({ id: e.id, track: e.track, scope: e.scope, milestone: e.milestone, note: e.note, date: e.date, shared: e.shared })), village: { biogas: { ...x.village.biogas }, solar: { ...x.village.solar } } };
+}
+
+export type OpportunityStep = { title: string; stage: Stage; individual: string; village: string; evidence: string; skills: string; people: string; output: string; gate: string };
+export const OPPORTUNITY_MAP: Record<TrackId, OpportunityStep[]> = {
+  solar: [
+    { title: "Define the need", stage: "Learn", individual: "Understand the service and identify where your experience fits.", village: "Decide what solar should power: homes, a public service or irrigation.", evidence: "An agreed service need and baseline energy use", skills: "Listening, load inventory, basic energy literacy", people: "Households, farmers, facilitator and service users", output: "A need statement: what should work, for whom, and when?", gate: "Do people need lower bills, outage backup or irrigation? These are different design requirements." },
+    { title: "Check the site", stage: "Build", individual: "Explore site survey and technical assessment roles.", village: "Assess the roof or land, access, shading and existing connections; assess water for irrigation.", evidence: "A qualified site assessment and recorded constraints", skills: "Site surveying, electrical assessment; water assessment for pumps", people: "Qualified installer, site owner and relevant water or utility specialists", output: "A site assessment with feasible options and unresolved constraints.", gate: "A suitable site and appropriate permissions are required. A solar pump does not establish water availability." },
+    { title: "Choose a system", stage: "Test", individual: "Learn to compare proposals and understand role requirements.", village: "Compare system designs, total costs, ownership, finance and who benefits.", evidence: "Comparable proposals and an agreed ownership model", skills: "Technology comparison, budgeting, scheme literacy and negotiation", people: "Users, technical partner, owner, funder and decision-making group", output: "A chosen design, proposed budget and responsibility agreement.", gate: "Confirm backup requirements, maintenance costs and funding. Do not assume scheme eligibility." },
+    { title: "Prepare & install", stage: "Build", individual: "Find verified training and supervised installation opportunities.", village: "Arrange qualified installation, procurement and safe site work.", evidence: "Installer qualifications, installation records and assigned responsibilities", skills: "PV installation, electrical safety, procurement and coordination", people: "Qualified installation team, owner, trainees under supervision", output: "An installed system ready for testing, with a trained operating contact.", gate: "Technical work needs appropriately qualified people. Online exercises do not qualify someone to install." },
+    { title: "Test & operate", stage: "Build", individual: "Explore maintenance, operating and user-support work.", village: "Commission the system, agree handover and monitor the service it provides.", evidence: "Commissioning, handover and operating records", skills: "Testing, maintenance, fault escalation and record keeping", people: "Qualified technician, operator, users and service provider", output: "A commissioned service with an operating and maintenance arrangement.", gate: "Equipment installed is not the same as service working. Verify performance and response to faults." },
+    { title: "Sustain the service", stage: "Pathways", individual: "Build references and explore ongoing technical or service work.", village: "Review reliability, affordability, water use where relevant and distribution of benefits.", evidence: "Service records, maintenance funding and user feedback", skills: "Service enterprise, financial records, monitoring and community accountability", people: "Operators, local technicians, user group and owner", output: "A reliable service, maintained assets and visible local work opportunities.", gate: "This is the working ‘1’: useful service, people able to maintain it, and accountable ownership. Revisit earlier choices when conditions change." },
+  ],
+  biogas: [
+    { title: "Understand demand", stage: "Learn", individual: "Connect household experience to cooking, waste and livelihood needs.", village: "Identify cooking demand, waste problems and potential users of gas and slurry.", evidence: "Household needs and interest in gas and slurry", skills: "Household interviews, observation and community communication", people: "Cooking-fuel users, dairy households, farmers and facilitator", output: "A clear need and a group of potential users.", gate: "Whose work might increase? Include women and the people who collect fuel, handle dung and cook." },
+    { title: "Secure inputs", stage: "Build", individual: "Explore feedstock survey, collection and aggregation work.", village: "Measure collectable feedstock across seasons and assess water, space and collection arrangements.", evidence: "A feedstock baseline and site constraints", skills: "Surveying, quantity records, collection logistics and site assessment", people: "Livestock owners, aggregator, landowner and technical assessor", output: "A realistic input and site assessment.", gate: "Animal count alone is insufficient. Daily collection, competing uses and seasonal changes matter." },
+    { title: "Agree the model", stage: "Test", individual: "Understand household, operator and collective-enterprise roles.", village: "Compare household and community options; agree ownership, costs, feedstock commitments and slurry use.", evidence: "Technical proposal, ownership agreement and operating budget", skills: "Technology comparison, budgeting, group facilitation and enterprise planning", people: "Users, SHG or cooperative, technical partner and proposed owner", output: "A feasible plant proposal with responsibilities and intended benefits.", gate: "Who supplies dung, who operates, who pays and who gets slurry? Resolve the arrangement before construction." },
+    { title: "Build & prepare", stage: "Build", individual: "Explore mason training and supervised construction or operator preparation.", village: "Arrange qualified construction, operator preparation and the required safety review.", evidence: "Construction and training records", skills: "Plant construction, operating procedures and safety awareness", people: "Trained plant mason, technical supervisor, operator and owner", output: "A completed installation ready for commissioning.", gate: "A lesson or quiz cannot authorise construction or hazardous work. Qualified supervision and technical checks are required." },
+    { title: "Operate the loop", stage: "Build", individual: "Explore plant operation, collection and slurry-processing roles.", village: "Commission the plant and establish feeding, gas use, maintenance and slurry arrangements.", evidence: "Commissioning and daily operation records", skills: "Plant operation, fault escalation, feedstock logistics and slurry handling", people: "Operator, aggregator, qualified maintenance support and slurry users", output: "A functioning gas-and-slurry service with clear daily responsibilities.", gate: "Reliable inputs, trained operation and useful outputs must work together. Construction alone is not ‘1’." },
+    { title: "Make it dependable", stage: "Pathways", individual: "Build work evidence and explore paid service or enterprise routes.", village: "Review service reliability, workload, operating costs and who receives the benefits.", evidence: "Operating performance, costs, work records and user feedback", skills: "Maintenance planning, enterprise records and collective accountability", people: "Users, operators, SHG or cooperative, farmers and owner", output: "A dependable service with maintained equipment and fair operating arrangements.", gate: "This is the working ‘1’: a useful, sustained service and people able to run it. Revisit the model if inputs, demand or participation change." },
+  ],
+};
+
+export const ROLE_PATHWAYS: Record<string, { contribution: string; learn: string; practise: string; evidence: string }> = {
+  "Biogas plant operator": { contribution: "Keep the plant’s daily operation reliable.", learn: "Feedstock routines, operating records, safety procedures and fault escalation.", practise: "Keep a sample operating log, then practise approved routines under qualified supervision.", evidence: "Reviewed operating records and a supervisor’s practical assessment." },
+  "Biogas plant mason": { contribution: "Help construct a plant to an approved technical design.", learn: "Plant construction principles, interpreting designs, material quality and safe site work.", practise: "Compare your existing masonry experience with the training requirements; work with a qualified plant construction team.", evidence: "Construction task records, relevant training and supervisor references." },
+  "Feedstock service provider": { contribution: "Organise consistent collection and delivery of usable inputs.", learn: "Seasonal supply, quantity records, collection planning, quality requirements and costs.", practise: "Prepare a sample collection route and feedstock record with participating households.", evidence: "Reviewed supply assessment, collection plan and service records." },
+  "Solar technician": { contribution: "Support installation and maintenance within your qualifications.", learn: "Electrical foundations, system components, site requirements and safety; verify course entry requirements.", practise: "Read a sample system specification and pursue supervised work with a qualified technical team.", evidence: "Training records, assessed practical tasks and supervisor references." },
+  "Solar maintenance service provider": { contribution: "Help keep installed systems working over time.", learn: "Maintenance schedules, permitted tasks, fault reporting, service costing and customer records.", practise: "Draft a maintenance schedule and practise only authorised tasks under qualified supervision.", evidence: "Reviewed maintenance plans, assessed work and customer or supervisor references." },
+  "Community energy coordinator": { contribution: "Connect users, owners and technical service providers.", learn: "User needs, access arrangements, record keeping, affordability and resolving concerns.", practise: "Prepare a user consultation and service log; review them with a facilitator.", evidence: "Consultation summaries, operating arrangements and reviewed coordination work." },
+};
