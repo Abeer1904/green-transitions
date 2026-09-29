@@ -15,7 +15,7 @@ export const TRACKS = {
     roles: ["Plant mason", "Plant operator", "Feedstock aggregator"], tasks: ["Construct the plant", "Manage daily feeding and operating records", "Organise reliable feedstock collection"],
     field: "With permission, document one household’s cooking needs, collectable feedstock and seasonal changes. Do not inspect or operate equipment.",
     villageField: "Bring household observations together into an anonymous feedstock and needs assessment. Record missing information, proposed ownership and whose voices are absent.",
-    careers: ["Biogas plant operator", "Biogas plant mason", "Feedstock service provider"],
+    careers: ["Biogas plant operator", "Biogas plant mason", "Feedstock service provider", "Slurry processor and packager", "Safety and compliance recorder", "Briquette or pellet maker"],
     day: "Follow trained operating procedures, maintain records and refer faults to qualified personnel.",
   },
   solar: {
@@ -29,7 +29,7 @@ export const TRACKS = {
     roles: ["PV technician", "Site assessor", "Community pump coordinator"], tasks: ["Install and maintain within training and authorisation", "Assess site conditions and service needs", "Coordinate access and keep usage records"],
     field: "With permission, record a building’s essential electricity needs and outage pattern. Leave electrical inspection and measurements to qualified people.",
     villageField: "Map priority electricity services and potential sites. For irrigation, record the water assessment needed, intended users and access arrangements.",
-    careers: ["Solar technician", "Solar maintenance service provider", "Community energy coordinator"],
+    careers: ["Solar technician", "Solar pump installer", "Solar maintenance service provider", "Community energy coordinator", "Energy auditor"],
     day: "Work with a qualified team on site assessment, installation or maintenance within your training and authorisation.",
   },
 } as const;
@@ -93,3 +93,11 @@ export const ROLE_PATHWAYS: Record<string, { contribution: string; learn: string
   "Solar maintenance service provider": { contribution: "Help keep installed systems working over time.", learn: "Maintenance schedules, permitted tasks, fault reporting, service costing and customer records.", practise: "Draft a maintenance schedule and practise only authorised tasks under qualified supervision.", evidence: "Reviewed maintenance plans, assessed work and customer or supervisor references." },
   "Community energy coordinator": { contribution: "Connect users, owners and technical service providers.", learn: "User needs, access arrangements, record keeping, affordability and resolving concerns.", practise: "Prepare a user consultation and service log; review them with a facilitator.", evidence: "Consultation summaries, operating arrangements and reviewed coordination work." },
 };
+
+Object.assign(ROLE_PATHWAYS, {
+  "Slurry processor and packager": { contribution: "Connect a biogas plant’s slurry output to appropriate farming uses.", learn: "Slurry handling, processing options, quality requirements, packaging and basic enterprise records.", practise: "Map potential users and review a processing workflow with a qualified trainer.", evidence: "A reviewed slurry-use plan, training records and supervised task evidence." },
+  "Safety and compliance recorder": { contribution: "Maintain reliable records supporting trained staff and accountable operation.", learn: "Required records, training logs, reporting responsibilities and escalation procedures. Verify the exact role and qualification route.", practise: "Organise sample records under qualified guidance; record keeping does not authorise technical safety assessments.", evidence: "Reviewed records and relevant training, with the limits of the role clearly stated." },
+  "Briquette or pellet maker": { contribution: "Explore a separate biomass-processing livelihood using suitable residues.", learn: "Feedstock suitability, machinery training, product requirements, costs and buyers.", practise: "Prepare a feedstock and buyer assessment; seek supervised machinery training.", evidence: "A reviewed enterprise assessment, training and supervised task records." },
+  "Solar pump installer": { contribution: "Help establish appropriate solar-powered irrigation systems.", learn: "Pump and PV components, water and load assessment, controls and installation safety; verify technical entry requirements.", practise: "Study a sample site assessment and seek qualified supervised installation training.", evidence: "Relevant training, assessed installation tasks and supervisor references." },
+  "Energy auditor": { contribution: "Assess energy use and identify appropriate improvements within the relevant qualification framework.", learn: "Energy accounting, measurement, load assessment and efficiency. Check formal education and certification requirements.", practise: "Begin with a supervised energy-use inventory; professional audit work requires the applicable competence and qualifications.", evidence: "Verified qualifications where required, supervised assessment work and references." },
+});

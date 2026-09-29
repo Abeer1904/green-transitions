@@ -8,3 +8,5 @@
 .mapDetails{display:grid;grid-template-columns:1fr 1fr 1.3fr;gap:24px;padding:4px 18px 20px}.mapDetails h3{font-size:13px;margin:18px 0 7px;color:var(--muted)}.mapDetails p{font-size:14px;margin:0}.tabs{gap:18px;flex-wrap:wrap}@media(max-width:600px){.mapDetails{grid-template-columns:1fr;gap:0;padding:4px 13px 20px}.tabs button{font-size:13px}.tabs{gap:8px}}
 
 .learningPath ol{list-style:none;counter-reset:path;padding:0}.learningPath li{counter-increment:path;position:relative;padding:18px 0 18px 42px;border-bottom:1px solid var(--line);margin:0}.learningPath li:before{content:counter(path);position:absolute;left:0;top:18px;color:var(--green);font:500 24px Georgia,serif}.learningPath p{margin:7px 0 10px}.learningPath button{font-size:13px}
+
+.directory{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:18px 0;margin:22px 0}.directory summary{cursor:pointer;font-weight:600}.trainingLead{padding:14px 0;border-bottom:1px solid var(--line)}.trainingLead p{margin:7px 0}
