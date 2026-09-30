@@ -4,6 +4,7 @@ import { JOURNEYS, SKILLS, TRACKS, readingById } from '../content';
 import { useLocalizer } from '../content/localize';
 import type { Skill, TrackId } from '../content/types';
 import { href } from '../router';
+import { updateWorkspace } from '../workspace';
 
 const KINDS: Skill['kind'][] = ['Technical', 'Operation', 'Business', 'Records', 'Testing'];
 
@@ -15,7 +16,7 @@ export default function Skills({ track }: { track?: string }) {
   const [q, setQ] = useState('');
   const all = SKILLS.map(L.skill);
   const shown = all.filter(s => (tr === 'all' || s.track === tr) && (kind === 'all' || s.kind === kind) && (!q.trim() || (s.name + ' ' + s.does + ' ' + s.train.map(x => x.where).join(' ')).toLowerCase().includes(q.trim().toLowerCase())));
-  const usedIn = (id: string, tid: TrackId) => (JOURNEYS[tid] ? L.journey(tid, JOURNEYS[tid]!).stages.filter((_, i) => JOURNEYS[tid]!.stages[i].skills.includes(id)).map(s => s.day) : []);
+  const usedIn = (id: string, tid: TrackId) => (JOURNEYS[tid] ? L.journey(tid, JOURNEYS[tid]!).stages.filter((_, i) => JOURNEYS[tid]!.stages[i].skills.includes(id)).map(s => s.title) : []);
   return (
     <div>
       <p className="crumbs"><a href={href()}>{t('nav.home')}</a> / {t('skills.crumb')}</p>
@@ -24,10 +25,10 @@ export default function Skills({ track }: { track?: string }) {
       <div className="box box-warn"><strong className="box-title">{t('skills.warnTitle')}</strong><p>{t('skills.warn')}</p></div>
       <div className="filters">
         <div className="filter-group" role="group" aria-label={t('skills.track')}>
-          {[{ id: 'all', name: t('skills.all') }, ...TRACKS.filter(x => x.status !== 'soon').map(x => ({ id: x.id, name: L.track(x).short }))].map(x => <button key={x.id} className={tr === x.id ? 'pill on' : 'pill'} onClick={() => setTr(x.id)}>{x.name}</button>)}
+          {[{ id: 'all', name: t('skills.all') }, ...TRACKS.filter(x => x.status !== 'soon').map(x => ({ id: x.id, name: L.track(x).short }))].map(x => <button key={x.id} className={tr === x.id ? 'pill on' : 'pill'} aria-pressed={tr === x.id} onClick={() => setTr(x.id)}>{x.name}</button>)}
         </div>
         <div className="filter-group" role="group" aria-label={t('skills.kindGroup')}>
-          {['all', ...KINDS].map(k => <button key={k} className={kind === k ? 'pill on' : 'pill'} onClick={() => setKind(k)}>{k === 'all' ? t('skills.anyKind') : t(`skills.kind.${k}`)}</button>)}
+          {['all', ...KINDS].map(k => <button key={k} className={kind === k ? 'pill on' : 'pill'} aria-pressed={kind === k} onClick={() => setKind(k)}>{k === 'all' ? t('skills.anyKind') : t(`skills.kind.${k}`)}</button>)}
         </div>
         <label className="search">{t('skills.search')}<input type="search" value={q} onChange={e => setQ(e.target.value)} placeholder={t('skills.placeholder')} /></label>
       </div>
@@ -41,7 +42,7 @@ export default function Skills({ track }: { track?: string }) {
             <details key={s.id} className={`skill hue-${base.hue}`}>
               <summary><span className="skill-name">{s.name}</span><span className="chip">{t(`skills.kind.${s.kind}`)}</span><span className="chip chip-track">{L.track(base).short}</span></summary>
               <div className="skill-body">
-                <p>{s.does}</p>
+                <p>{s.does}</p><a className="btn" href={href('personal')} onClick={()=>updateWorkspace({role:s.id})}>Build my pathway →</a>
                 <h3>{t('skills.where')}</h3>
                 <ul>{s.train.map(x => <li key={x.where}><strong>{x.where}</strong>{x.detail ? `: ${x.detail}` : ''}</li>)}</ul>
                 <h3>{t('skills.who')}</h3>

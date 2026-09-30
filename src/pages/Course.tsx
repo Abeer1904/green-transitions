@@ -87,7 +87,7 @@ export default function Course({ id }: { id?: string }) {
         </section>
         {m.quizzes.length > 0 && <section className="mod-step"><h2>{U.step.check}</h2>
           <ul className="reading-list">{m.quizzes.filter(q => QUIZZES[q]).map(q => <li key={q}><a href={href('check', q)}>{U.quizFor(L.track(trackById(q)!).short)}</a></li>)}</ul></section>}
-        {m.id === 'capstone' && <section className="mod-step"><h2>Plan</h2>
+        {m.id === 'capstone' && <section className="mod-step"><h2>Plan</h2><p><a className="btn" href={href('workspace')}>Develop our project worksheets →</a></p>
           <ul className="reading-list">{['biogas', 'solar'].map(k => <li key={k}><a href={href('pathway', k)}>{L.track(trackById(k as 'biogas')!).short}: our pathway</a></li>)}</ul></section>}
       </div>
 

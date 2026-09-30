@@ -23,7 +23,7 @@ export default function Pathway({ id }: { id: string }) {
       <p className="lead">{t('pathway.lead')}</p>
       <p className="no-print"><button className="btn btn-ghost" onClick={() => window.print()}>{t('pathway.print')}</button></p>
       <p className="fine no-print">{t('pathway.saved')}</p>
-      <ol className="pathway-steps">
+      <p><a className="btn" href={href('workspace')}>Carry these notes into a project draft →</a></p><ol className="pathway-steps">
         {journey.stages.slice(1).map((s, k) => {
           const n = k + 1;
           const note = notes[n] || { decided: '', who: '' };

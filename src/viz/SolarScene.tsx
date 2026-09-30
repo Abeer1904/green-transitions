@@ -2,22 +2,29 @@ import { useTranslation } from 'react-i18next';
 import { ProcessFlow, ProcessMarker } from './parts';
 
 /** One application: PV-powered submersible irrigation pump, without grid or battery. */
-export default function SolarScene({ stage, label }: { stage: number; label: string }) {
+export default function SolarScene({ stage, label, condition = 'sun' }: { stage: number; label: string; condition?: string }) {
   const { t } = useTranslation();
-  const active = stage >= 4;
+  const active = stage >= 4 && condition !== 'stop';
   const name = (key: string) => t(`engineering.solar.${key}`);
   return <svg viewBox="0 0 960 490" role="img" aria-label={label} className="scene technical-scene">
     <title>{label}</title><desc>{t('sceneDetail.solar.description')}</desc>
-    <rect width="960" height="490" fill="#f8faf8"/>
-    <path d="M0 268H960V490H0Z" fill="#ece9e1"/>
+    <defs><linearGradient id="solar-sky" x2="0" y2="1"><stop stopColor="#e6eef0"/><stop offset="1" stopColor="#faf7e9"/></linearGradient><linearGradient id="solar-earth" x2="0" y2="1"><stop stopColor="#b7ab86"/><stop offset="1" stopColor="#e5dcc5"/></linearGradient><linearGradient id="solar-panel" x2="1" y2="1"><stop stopColor="#173b53"/><stop offset=".55" stopColor="#467b91"/><stop offset="1" stopColor="#15364c"/></linearGradient><pattern id="solar-soil" width="39" height="24" patternUnits="userSpaceOnUse"><path d="M3 5h7m14 11h5" stroke="#8c806a" strokeOpacity=".22"/></pattern></defs>
+    <rect width="960" height="490" fill="url(#solar-sky)"/>
+    <circle cx="150" cy="68" r="28" fill="#ead48c" opacity=".65"/>
+    <path d="M0 241Q100 210 220 238T440 230T680 240T960 215V269H0Z" fill="#ccd5ba"/>
+    <g fill="#f5f5ef" opacity={condition==='cloud'?.95:.45} className="solar-cloud"><ellipse cx="280" cy="75" rx="66" ry="20"/><ellipse cx="270" cy="59" rx="31" ry="24"/><ellipse cx="310" cy="65" rx="30" ry="17"/></g>
+    <path d="M0 268H960V490H0Z" fill="url(#solar-earth)"/>
+    <path d="M0 268H960V490H0Z" fill="url(#solar-soil)"/>
     <path d="M0 388Q240 371 475 388T960 388V490H0Z" fill="#d7e8ec"/>
     <path d="M0 268H960" stroke="#88958a" strokeWidth="2"/>
     <path d="M0 388Q240 371 475 388T960 388" stroke="#80a6b6" strokeWidth="2" strokeDasharray="7 6"/>
     <text x="26" y="366" className="diagram-small">{name('waterTable')}</text>
     <g opacity={stage < 3 ? .48 : 1} className="system-build">
+      <ellipse cx="191" cy="267" rx="128" ry="8" fill="#4b5847" opacity=".12"/>
+      <path d="M112 264h22v8h-22m139-8h22v8h-22" fill="#a4a59b"/>
       {/* Tilted modules on a steel mounting frame. */}
       <path d="M121 224V267M260 185V267M121 242H260" stroke="#70817b" strokeWidth="5"/>
-      <path d="M73 214L251 156L294 202L116 260Z" fill="#254d61" stroke="#9fb9c3" strokeWidth="3"/>
+      <path d="M73 214L251 156L294 202L116 260Z" fill="url(#solar-panel)" stroke="#9fb9c3" strokeWidth="3"/>
       {[1,2,3,4,5].map(n=><path key={n} d={`M${73+n*29.7} ${214-n*9.67}l43 46`} stroke="#a0bbc6" strokeWidth="1"/>)}
       <path d="M87 229L265 171M102 245L280 187" stroke="#a0bbc6"/>
       <ProcessFlow kind="input" d="M127 65L181 154" color="#b99536" active={active}/>
@@ -41,6 +48,7 @@ export default function SolarScene({ stage, label }: { stage: number; label: str
       <ProcessFlow kind="output" d="M754 215H800V254H913" color="#337d9b" active={active}/>
       {[832,868,904].map(x=><g key={x}><path d={`M${x} 254v10`} stroke="#337d9b" strokeWidth="3"/><path d={`M${x} 290v-13m0 6q-12 0-12-10m12 15q12-2 12-11`} fill="none" stroke="#6d8b66" strokeWidth="2"/></g>)}
     </g>
+    <g className="field-operator" transform="translate(570 217)"><ellipse cy="51" rx="18" ry="4" fill="#637357" opacity=".18"/><path d="M-6 29l-5 22m16-22 9 22" stroke="#43574d" strokeWidth="6"/><path d="M-9 13h19l-2 20H-7Z" fill="#a56c48"/><circle cy="4" r="7" fill="#af805c"/><path d="M-9 0h18l-4-7H-5Z" fill="#d4b760"/><path d="M-8 16l-12 12m29-11 11 9" stroke="#af805c" strokeWidth="5"/><rect x="16" y="20" width="11" height="15" rx="1" fill="#f2ecd7"/></g>
     <g className="diagram-label" textAnchor="middle">
       <text x="155" y="42">{name('sun')}</text>
       <text x="181" y="304">{name('array')}</text>
@@ -51,9 +59,6 @@ export default function SolarScene({ stage, label }: { stage: number; label: str
       <text x="565" y="323">{name('main')}</text>
     </g>
     <path d="M509 431H536M505 317H524" stroke="#84978c"/>
-    <ProcessMarker x={156} y={112} number={1} color="#a48625"/>
-    <ProcessMarker x={437} y={223} number={2} color="#b47629"/>
-    <ProcessMarker x={577} y={143} number={3} color="#337d9b"/>
     <text x="26" y="468" className="diagram-small">{t('engineering.section')}</text>
   </svg>;
 }

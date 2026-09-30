@@ -5,6 +5,9 @@ import { useLocalizer } from './content/localize';
 import { LANGUAGES } from './i18n';
 import { href, useRoute } from './router';
 import Home from './pages/Home';
+import Personal from './pages/Personal';
+import Workspace from './pages/Workspace';
+import Practice from './pages/Practice';
 import Track, { NotFound } from './pages/Track';
 import ReadingPage from './pages/Reading';
 import See from './pages/See';
@@ -24,7 +27,10 @@ function Page({ parts }: { parts: string[] }) {
     case 'see': return b ? <See id={b} /> : <NotFound />;
     case 'try': return b ? <ScenarioPage id={b} /> : <NotFound />;
     case 'check': return b ? <Quiz id={b} /> : <NotFound />;
-    case 'skills': return <Skills track={b} />;
+    case 'skills': return <Skills key={b} track={b} />;
+    case 'personal': return <Personal />;
+    case 'workspace': return <Workspace key={b} stage={b} />;
+    case 'practice': return <Practice />;
     case 'course': return <Course id={b} />;
     case 'framework': return <Framework parts={parts.slice(1)} />;
     case 'pathway': return b ? <Pathway id={b} /> : <NotFound />;
@@ -36,7 +42,7 @@ export default function App() {
   const { t, i18n } = useTranslation();
   const L = useLocalizer();
   const parts = useRoute();
-  useEffect(() => { document.getElementById('main')?.focus({ preventScroll: true }); }, [parts.join('/')]);
+  useEffect(() => { document.getElementById('main')?.focus({ preventScroll: true }); if(parts.length) try { localStorage.setItem('gram-urja:last-route', href(...parts)); } catch {} }, [parts.join('/')]);
   const active = parts[0] === 'skills' ? 'skills' : parts[0] === 'course' ? 'course' : parts[0] === 'framework' ? 'framework' : parts[1];
   return (
     <>
@@ -44,17 +50,17 @@ export default function App() {
       <header className="top no-print">
         <a className="brand" href={href()}><svg viewBox="0 0 32 32" width="32" height="32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#2f5d3a" /><circle cx="10" cy="11" r="4" fill="#f2b632" /><path d="M6 25 q10 -14 20 0z" fill="#eaf0df" /></svg><span>{t('brand')}</span></a>
         <nav aria-label={t('nav.main')}>
-          {TRACKS.filter(x => x.status !== 'soon').map(x => <a key={x.id} href={href('track', x.id)} aria-current={active === x.id ? 'page' : undefined}>{L.track(x).short}</a>)}
+          <a href={href()} aria-current={!parts.length ? 'page' : undefined}>{i18n.resolvedLanguage === 'hi' ? 'सिस्टम' : 'Systems'}</a>
+          <a href={href('personal')} aria-current={parts[0] === 'personal' || parts[0] === 'skills' ? 'page' : undefined}>{i18n.resolvedLanguage === 'hi' ? 'मेरे कौशल' : 'My skills'}</a>
           <a href={href('framework')} aria-current={active === 'framework' ? 'page' : undefined}>{t('nav.framework')}</a>
           <a href={href('course')} aria-current={active === 'course' ? 'page' : undefined}>{t('nav.course')}</a>
-          <a href="pipeline/index.html">{t('nav.pipeline')}</a>
-          <a href={href('skills')} aria-current={active === 'skills' ? 'page' : undefined}>{t('nav.skills')}</a>
+          <a href={href('workspace')} aria-current={parts[0] === 'workspace' ? 'page' : undefined}>{i18n.resolvedLanguage === 'hi' ? 'कार्यस्थल' : 'Workspace'}</a>
         </nav>
         <div className="lang" role="group" aria-label={t('language')}>
           {LANGUAGES.map(l => <button key={l.code} lang={l.code} className={i18n.resolvedLanguage === l.code ? 'pill on' : 'pill'} aria-pressed={i18n.resolvedLanguage === l.code} onClick={() => i18n.changeLanguage(l.code)}>{l.label}</button>)}
         </div>
       </header>
-      <main id="main" tabIndex={-1}><Page parts={parts} /></main>
+      <main id="main" tabIndex={-1}>{i18n.resolvedLanguage === 'hi' && ['personal','workspace','practice','framework','course'].includes(parts[0]) && <p className="hint" lang="hi">यह नया भाग अभी अंग्रेज़ी में है। हिन्दी अनुवाद की समीक्षा बाकी है।</p>}<Page parts={parts} /></main>
       <footer className="foot no-print"><p>{t('footer')}</p></footer>
     </>
   );

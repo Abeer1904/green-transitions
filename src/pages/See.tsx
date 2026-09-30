@@ -6,7 +6,7 @@ import { dungKg, surya } from '../content/tools';
 import { go, href } from '../router';
 import { markSeen } from '../progress';
 import BiogasScene from '../viz/BiogasScene';
-import SolarScene from '../viz/SolarScene';
+import SolarExplorer from '../viz/SolarExplorer';
 import { NotFound } from './Track';
 
 /** Rule of thumb from the directory: a 2 m³ plant is typically fed ~50 kg dung/day, roughly 4–5 animals. */
@@ -85,19 +85,14 @@ export default function See({ id }: { id: string }) {
       <p className="crumbs"><a href={href()}>{t('nav.home')}</a> / <a href={href('track', base.id)}>{tr.short}</a> / 0→1</p>
       <p className="eyebrow">{t('see.eyebrow')}</p>
       <h1>{t('see.title', { name: tr.short })}</h1>
-      <p className="lead">{journey.intro}</p>
+      <p className="lead">{journey.intro}</p><p className="hint">A map of capabilities and decisions, not a fixed course calendar. Return to an earlier stage whenever evidence changes.</p>
 
       <div className="stage-card">
         <div className="scene-tools">
           <div><p className="eyebrow">{t(i < 3 ? 'engineering.planning' : i === 3 ? 'engineering.construction' : 'engineering.operating')}</p><strong>{t(`engineering.${id}.title`)}</strong></div>
           <button className="pill" aria-pressed={paused} onClick={() => setPaused(p => !p)}>{t(paused ? 'sceneDetail.resume' : 'sceneDetail.pause')}</button>
         </div>
-        <p className="diagram-scroll-hint">{t('engineering.scroll')}</p>
-        <div className={`scene-wrap focus-${focus} ${paused ? 'scene-paused' : ''}`} tabIndex={0} role="region" aria-label={t(`engineering.${id}.title`)}>
-
-          {id === 'biogas' ? <BiogasScene stage={i} label={label} /> : <SolarScene stage={i} label={label} />}
-          
-        </div>
+        {id === 'solar' ? <div className={`focus-${focus}`}><SolarExplorer stage={i} paused={paused} label={label}/></div> : <><p className="diagram-scroll-hint">{t('engineering.scroll')}</p><div className={`scene-wrap focus-${focus} ${paused ? 'scene-paused' : ''}`} tabIndex={0} role="region" aria-label={t(`engineering.${id}.title`)}><BiogasScene stage={i} label={label}/></div></>}
         <div className="scene-explainer">
           <div className="scene-flow-controls" role="group" aria-label={t('sceneDetail.focus')}>
             <button className="pill" aria-pressed={focus === 'all'} onClick={() => setFocus('all')}>{t('sceneDetail.all')}</button>
@@ -144,7 +139,7 @@ export default function See({ id }: { id: string }) {
         {i === last && <div className="box box-note"><strong className="box-title">{t('see.oneMeans')}</strong><p>{journey.one}</p></div>}
       </div>
 
-      {id === 'biogas' ? <FeedstockCheck /> : <SubsidyCalc />}
+      {id === 'biogas' ? <FeedstockCheck /> : <><p className="journey-links"><a className="btn" href={href('practice')}>Practise solar decisions →</a><a href={href('workspace')}>Record our village evidence →</a></p><details><summary>Separate application: rooftop solar subsidy example</summary><p>This calculator concerns rooftop electricity, not the irrigation system above.</p><SubsidyCalc /></details></>}
 
       <p className="next-links"><a className="btn btn-ghost" href={href('track', base.id)}>{t('see.backToTrack', { name: tr.short })}</a> <a className="btn" href={href('pathway', base.id)}>{t('see.plan')}</a></p>
     </div>

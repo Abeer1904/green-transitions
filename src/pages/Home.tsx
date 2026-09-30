@@ -11,16 +11,15 @@ export default function Home() {
   const { t } = useTranslation();
   const L = useLocalizer();
   const p = useProgress();
-  const live = TRACKS.filter(x => x.status === 'live');
+  let resume = href('workspace'); try { const saved = localStorage.getItem('gram-urja:last-route'); if(saved && /^#\/(personal|workspace|practice|framework|course|see|read|track|skills|pathway|try|check)(\/|$)/.test(saved)) resume = saved; } catch {}
   return (
     <>
       <section className="hero">
         <p className="eyebrow">{t('home.eyebrow')}</p>
         <h1><Trans i18nKey="home.title" components={{ zero: <span className="zero" />, one: <span className="one" /> }} /></h1>
         <p className="lead"><Trans i18nKey="home.lead" components={{ b: <strong /> }} /></p>
-        <div className="cta-row">
-          {live.map(x => <a key={x.id} className={`btn btn-big hue-${x.hue}`} href={href('track', x.id)}>{t('home.startWith', { name: L.track(x).short })}</a>)}
-        </div>
+        <div className="entry-paths"><a href={href('personal')}><span>For myself</span><strong>Find my role. Build my skills.</strong><small>Learning, practice and my CV →</small></a><a href={href('framework')}><span>For our village</span><strong>Turn a local need into a project.</strong><small>Framework, decisions and a working plan →</small></a></div>
+        <p className="journey-links"><a href={href('see','solar')}>Explore solar 0→1 →</a><a href={href('see','biogas')}>Explore biogas 0→1 →</a><a href={resume}>Continue where I left off →</a></p>
       </section>
 
       <section>

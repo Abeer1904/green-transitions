@@ -99,3 +99,13 @@ The course text is English only for now. Hindi for the research readings and the
 - Review of the Hindi with local speakers, then audio for readings. More languages (Punjabi, Urdu, Haryanvi) follow the steps above.
 - Stories and scripts using the `story` / `script` reading kinds.
 - Facilitator notes for running a session with a group.
+
+## Connected pathways (September 2026)
+
+- `#/personal`: role selection, learning activity, self-reported or assessor-referenced evidence, text CV download and print/PDF view.
+- `#/practice`: solar observation, decision, matching and preparation-sequence exercises.
+- `#/workspace`: six framework worksheets; creates a new editable pipeline draft with worksheet outputs and existing village pathway notes. Existing drafts are preserved.
+- Solar diagram: overview/enlargement, component hotspots and role links, illustrative sunlight/cloud/stopped conditions, pause and reduced-motion support.
+- Maps use readiness stages rather than day ranges. Original directory reading IDs are retained so links and saved progress continue to work.
+- New workspace state uses `gram-urja:workspace:v1`; existing learning state and pipeline state retain their own keys. Everything remains browser-local. Export creates a JSON backup; automatic restore/import is not implemented.
+- New pathway interface text remains English, with a notice in Hindi mode. Field review and local-language review remain necessary; see `FIELD-REVIEW.md`.

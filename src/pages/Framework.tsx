@@ -173,7 +173,7 @@ function LessonPlayer({ l }: { l: Lesson }) {
       <h1>{l.checkpoint ? 'Checkpoint complete' : 'Lesson complete'}</h1>
       <p className="lead">{l.title}</p>
       {l.readings && l.readings.length > 0 && <div className="box box-note"><strong className="box-title">Go deeper</strong><ul>{l.readings.map(r => readingById(r) && <li key={r}><a href={href('read', r)}>{readingById(r)!.title}</a></li>)}</ul></div>}
-      {l.checkpoint && <div className="box box-ask"><strong className="box-title">Unit output</strong>{u.output}. When the mandate is written, ideas that pass to preparation can be written up in the <a href="pipeline/index.html">Green Gram project pipeline</a>.</div>}
+      {l.checkpoint && <div className="box box-ask"><a className="btn" href={href('workspace',u.id)}>Write this stage’s output →</a><strong className="box-title">Unit output</strong>{u.output}. When the mandate is written, ideas that pass to preparation can be written up in the <a href="pipeline/index.html">Green Gram project pipeline</a>.</div>}
       <div className="pager">
         <a className="btn btn-ghost" href={href('framework')}>← The pathway</a>
         {next && next.unit === l.unit ? <a className="btn" href={href('framework', 'lesson', next.id)}>Next lesson: {next.title} →</a> : <a className="btn" href={href('framework')}>{l.checkpoint ? `${u.name} finished. Back to the pathway` : 'Back to the pathway'} →</a>}
@@ -233,7 +233,7 @@ function StagePage({ id }: { id: string }) {
       {st.lens && <p className="box box-note"><strong className="box-title">Rights lens</strong>Ask this at every stage, not only here: who is left out, who carries the risk, and who decides.</p>}
       <p className="box box-ask"><strong className="box-title">Output of this stage</strong>{u.output}.</p>
       {u.stallBefore && <p className="box box-warn"><strong className="box-title">Where the work stalls</strong>{u.stallBefore}.</p>}
-      {ls.length > 0 && <div className="fw-stage-lessons"><h2>Lessons</h2><ul>{ls.map(l => <li key={l.id}><a href={href('framework', 'lesson', l.id)}>{l.title}</a> <small>{l.minutes} min</small></li>)}</ul></div>}
+      {ls.length > 0 && <div className="fw-stage-lessons"><p><a className="btn" href={href('workspace',u.id)}>Work on this stage’s output →</a></p><h2>Lessons</h2><ul>{ls.map(l => <li key={l.id}><a href={href('framework', 'lesson', l.id)}>{l.title}</a> <small>{l.minutes} min</small></li>)}</ul></div>}
       <div className="pager">
         {prev ? <a className="btn btn-ghost" href={href('framework', 'stage', prev.id)}>← {prev.name}</a> : <a className="btn btn-ghost" href={href('framework')}>← The map</a>}
         {next ? <a className="btn" href={href('framework', 'stage', next.id)}>{next.name} →</a> : <a className="btn" href={href('framework')}>Back to the map →</a>}
