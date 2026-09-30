@@ -55,6 +55,7 @@ export default function App() {
           <a href={href('framework')} aria-current={active === 'framework' ? 'page' : undefined}>{t('nav.framework')}</a>
           <a href={href('course')} aria-current={active === 'course' ? 'page' : undefined}>{t('nav.course')}</a>
           <a href={href('workspace')} aria-current={parts[0] === 'workspace' ? 'page' : undefined}>{i18n.resolvedLanguage === 'hi' ? 'कार्यस्थल' : 'Workspace'}</a>
+          <a href="pipeline/index.html">{t('nav.pipeline')}</a>
         </nav>
         <div className="lang" role="group" aria-label={t('language')}>
           {LANGUAGES.map(l => <button key={l.code} lang={l.code} className={i18n.resolvedLanguage === l.code ? 'pill on' : 'pill'} aria-pressed={i18n.resolvedLanguage === l.code} onClick={() => i18n.changeLanguage(l.code)}>{l.label}</button>)}
