@@ -9,7 +9,10 @@
   "nav": {
     "main": "Main",
     "home": "Home",
-    "skills": "Skills"
+    "skills": "Skills",
+    "course": "Course",
+    "pipeline": "Project pipeline",
+    "framework": "Framework"
   },
   "footer": "Gram Urja is a learning tool for village energy transitions. Content adapted from the Green Skill directory for rural Haryana. Details of schemes, prices and courses change, so always confirm them.",
   "common": {
@@ -68,7 +71,10 @@
     "browseSkills": "Browse the skills",
     "scenariosTitle": "{{count}} village scenarios",
     "scenariosText": "Decision trees where every choice has a result. Weigh land, money, water, people, and time. There is more than one good ending, and more than one way to go wrong.",
-    "fine": "Content is adapted from the <i>Renewable Energy and Green Skills Directory for Mapping Renewable Energy Possibilities in Rural Haryana</i>. Names of organisations, courses, prices and schemes are leads to check, not guaranteed offers. Progress is kept only in this browser."
+    "fine": "Content is adapted from the <i>Renewable Energy and Green Skills Directory for Mapping Renewable Energy Possibilities in Rural Haryana</i>. Names of organisations, courses, prices and schemes are leads to check, not guaranteed offers. Progress is kept only in this browser.",
+    "pipelineTitle": "Green Gram project pipeline",
+    "pipelineText": "Where local project ideas are written up in nine fields, saved, and offered support by partners. Illustrative projects for now.",
+    "pipelineCta": "Open the project pipeline"
   },
   "track": {
     "preview": "<b>Preview.</b> The directory only has a short section on this so far. Costs, set-up steps and a Day 1–365 path are still to come.",

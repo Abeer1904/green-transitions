@@ -14,6 +14,9 @@ const readingIds = new Set(READINGS.map(r => r.id));
 const skillIds = new Set(SKILLS.map(s => s.id));
 const trackIds = new Set(TRACKS.map(t => t.id));
 let problems = [];
+// Research readings added in English first. Hindi falls back to English until translated; remove an id here when its Hindi file is added.
+const PENDING_TRANSLATION = new Set(['biogas-08','biogas-09','biogas-10','water-02','regen-01','solar-07a','solar-08','solar-09','solar-10','solar-11','solar-12','solar-13']);
+const pending = [];
 const bad = m => problems.push(m);
 
 for (const r of READINGS) if (!trackIds.has(r.track)) bad(`reading ${r.id}: unknown track ${r.track}`);
@@ -44,6 +47,38 @@ for (const [t, j] of Object.entries(JOURNEYS)) {
   if (j.stages.length < 3) bad(`journey ${t}: too short`);
   for (const s of j.stages) { for (const id of s.skills) if (!skillIds.has(id)) bad(`journey ${t}/${s.title}: unknown skill ${id}`); if (s.readingId && !readingIds.has(s.readingId)) bad(`journey ${t}/${s.title}: missing reading`); }
 }
+// Course: every module reference resolves, sessions add up, every research reading is used.
+const { MODULES } = await load('src/content/course.ts');
+const scenarioIds = new Set(SCENARIOS.map(s => s.id));
+const used = new Set();
+for (const m of MODULES) {
+  for (const id of [...m.practical, ...m.research]) { used.add(id); if (!readingIds.has(id)) bad(`course ${m.id}: missing reading ${id}`); }
+  for (const id of m.scenarios) if (!scenarioIds.has(id)) bad(`course ${m.id}: missing scenario ${id}`);
+  for (const t of m.quizzes) if (!QUIZZES[t]) bad(`course ${m.id}: no quiz for track ${t}`);
+  const total = m.session.reduce((n, x) => n + x.minutes, 0);
+  if (total !== m.sessionMinutes) bad(`course ${m.id}: session plan adds to ${total}, not ${m.sessionMinutes}`);
+}
+for (const r of READINGS) if (/research/.test(r.source ? r.title : '') || r.title.startsWith('Research')) if (!used.has(r.id)) bad(`course: research reading ${r.id} is in no module`);
+
+// Framework pathway: lessons, answers, glossary terms and readings all resolve.
+const fw = await load('src/content/framework.ts');
+const unitIds = new Set(fw.UNITS.map(u => u.id));
+const lessonIds = new Set();
+for (const l of fw.LESSONS) {
+  if (lessonIds.has(l.id)) bad(`framework: duplicate lesson ${l.id}`); lessonIds.add(l.id);
+  if (!unitIds.has(l.unit)) bad(`framework ${l.id}: unknown unit ${l.unit}`);
+  if (!l.owners.length) bad(`framework ${l.id}: no owner role`);
+  for (const r of l.readings ?? []) if (!readingIds.has(r)) bad(`framework ${l.id}: missing reading ${r}`);
+  l.cards.forEach((c, i) => {
+    if (c.kind === 'choice' && !(c.answer >= 0 && c.answer < c.options.length)) bad(`framework ${l.id}#${i}: answer out of range`);
+    if (c.kind === 'match' && c.pairs.length < 2) bad(`framework ${l.id}#${i}: match needs two pairs`);
+    if (c.kind === 'read') for (const t of c.terms ?? []) if (!fw.GLOSSARY[t]) bad(`framework ${l.id}#${i}: unknown term ${t}`);
+    const body = c.kind === 'read' || c.kind === 'play' ? c.body : '';
+    if (/\u2014/.test(body) || /\u2014/.test(c.title ?? c.q ?? '')) bad(`framework ${l.id}#${i}: em dash`);
+  });
+}
+for (const u of fw.UNITS) if (u.status === 'live' && !fw.LESSONS.some(l => l.unit === u.id)) bad(`framework: live unit ${u.id} has no lessons`);
+
 // Reading bodies: every ::: box that opens must close.
 for (const r of READINGS) { const opens = (r.body.match(/^:::\w+/gm) || []).length; const closes = (r.body.match(/^:::\s*$/gm) || []).length; if (opens !== closes) bad(`reading ${r.id}: unbalanced ::: boxes`); }
 
@@ -93,13 +128,14 @@ for (const lang of langs) {
   if (tk) for (const t of TRACKS) if (!tk[t.id]?.name || !tk[t.id]?.short || !tk[t.id]?.tagline) b(`tracks: ${t.id} incomplete`);
   const rt = READING_TEXT[lang] || {};
   for (const r of READINGS) {
-    const x = rt[r.id]; if (!x) { b(`readings: ${r.id} not translated`); continue; }
+    const x = rt[r.id]; if (!x) { if (PENDING_TRANSLATION.has(r.id)) { pending.push(`[${lang}] ${r.id}`); continue; } b(`readings: ${r.id} not translated`); continue; }
     const count = (s, re) => (s.match(re) || []).length;
     for (const [name, re] of [['## headings', /^##+ /gm], ['::: markers', /^:::/gm], ['table rows', /^\|/gm], ['list items', /^(- |\d+\. )/gm], ['quotes', /^>/gm]]) if (count(r.body, re) !== count(x.body, re)) b(`readings: ${r.id} ${name} differ (${count(r.body, re)} vs ${count(x.body, re)})`);
     if (!x.title || !x.summary) b(`readings: ${r.id} missing title/summary`);
     if (lang === 'hi' && !/[\u0900-\u097F]/.test(x.body)) b(`readings: ${r.id} has no Devanagari`);
   }
 }
+if (pending.length) console.log(`Note: ${pending.length} research readings await translation (falls back to English): ${pending.join(', ')}`);
 assert.deepEqual(problems, [], '\n' + problems.join('\n'));
 
 // Directory figures used by the tools.

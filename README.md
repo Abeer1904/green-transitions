@@ -78,6 +78,14 @@ Boxes are `:::ask`, `:::note` and `:::warn`. The first line inside a box is its 
 
 **A new track.** Set its status to `live` in `src/content/tracks.ts`, add readings with that `track`, and add entries to `journeys.ts`, `quizzes.ts`, `scenarios.ts` and `skills.ts` as they become available. A scene for the 0→1 view goes in `src/viz/`. Tracks without a journey still get readings, a quiz, skills and scenarios.
 
+## Course
+
+`#/course` is a six-module curriculum built from the research readings (`*-research-*.md`, plus the survey `solar-07a`) and the practical readings, scenarios and quizzes they connect to. It is defined in `src/content/course.ts`: each module has objectives, reading ids, scenario ids, quiz tracks, an opening question, a group task and a facilitator session plan. `npm test` fails if a module points at a missing reading, scenario or quiz, if a session plan does not add up to its stated minutes, or if a research reading is in no module.
+
+Two paths through the same modules. **Learner** hides the facilitator boxes. **Facilitator** shows them, plus the session plan and evidence note. The choice is kept in the browser. In a reading, a facilitator box is written as `:::facilitator` (first line is its title) and is hidden on the learner path.
+
+The course text is English only for now. Hindi for the research readings and the course page is still to do; until then it falls back to English (`PENDING_TRANSLATION` in `scripts/check-content.mjs`).
+
 ## Cautions about the content
 
 - The directory is a starting point. Course names, durations, costs, subsidy rates and scheme rules are leads to check. The site says so wherever they appear.

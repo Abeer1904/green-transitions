@@ -5,7 +5,7 @@ export const TRACKS: Track[] = [
   { id: 'solar', name: 'Solar power and solar pumps', short: 'Solar', status: 'live', tagline: 'A steadier supply for homes, the panchayat and the fields.', pages: '6–11', hue: 'ochre' },
   { id: 'water', name: 'Rainwater and watershed', short: 'Water', status: 'preview', tagline: 'Catch the rain, recharge the ground. Being written.', pages: '12–13', hue: 'blue' },
   { id: 'gasification', name: 'Crop residue gasification', short: 'Gasification', status: 'soon', tagline: 'Coming once the directory covers it.', pages: '–', hue: 'moss' },
-  { id: 'regen', name: 'Regenerative agriculture', short: 'Regen. farming', status: 'soon', tagline: 'Where biogas slurry goes next. Coming soon.', pages: '–', hue: 'green' },
+  { id: 'regen', name: 'Regenerative agriculture', short: 'Regen. farming', status: 'preview', tagline: 'Where biogas slurry goes next. One research reading so far.', pages: '–', hue: 'green' },
 ];
 
 export const trackById = (id: string): Track | undefined => TRACKS.find(t => t.id === id);

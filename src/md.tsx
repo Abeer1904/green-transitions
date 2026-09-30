@@ -17,7 +17,7 @@ export function Inline({ text }: { text: string }) {
 
 const cells = (line: string) => line.trim().replace(/^\||\|$/g, '').split('|').map(c => c.trim());
 
-export function Markdown({ src }: { src: string }) {
+export function Markdown({ src, hide = [] }: { src: string; hide?: string[] }) {
   const lines = src.split('\n');
   const blocks: ReactNode[] = [];
   let i = 0, k = 0;
@@ -31,7 +31,8 @@ export function Markdown({ src }: { src: string }) {
       while (i < lines.length && lines[i].trim() !== ':::') inner.push(lines[i++]);
       i++;
       const [title, ...rest] = inner;
-      blocks.push(<aside key={k++} className={`box box-${box[1]}`}><strong className="box-title">{title}</strong><Markdown src={rest.join('\n')} /></aside>);
+      if (hide.includes(box[1])) continue;
+      blocks.push(<aside key={k++} className={`box box-${box[1]}`}><strong className="box-title">{title}</strong><Markdown src={rest.join('\n')} hide={hide} /></aside>);
       continue;
     }
     const h = line.match(/^(#{2,3})\s+(.*)$/);

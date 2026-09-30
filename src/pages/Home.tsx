@@ -3,6 +3,7 @@ import { JOURNEYS, SCENARIOS, SKILLS, TRACKS, readingsFor } from '../content';
 import { useLocalizer } from '../content/localize';
 import { href } from '../router';
 import { useProgress } from '../progress';
+import { COURSE_UI } from '../content/course';
 
 const STEPS = ['read', 'see', 'try', 'check', 'skills', 'plan'] as const;
 
@@ -41,6 +42,22 @@ export default function Home() {
               ? <div key={x.id} className={`card track-card soon hue-${x.hue}`}>{inner}</div>
               : <a key={x.id} className={`card track-card hue-${x.hue}`} href={href('track', x.id)}>{inner}</a>;
           })}
+        </div>
+      </section>
+
+      <section className="band">
+        <div>
+          <h2>{t('home.pipelineTitle')}</h2>
+          <p>{t('home.pipelineText')}</p>
+          <a className="btn" href="pipeline/index.html">{t('home.pipelineCta')}</a>
+        </div>
+      </section>
+
+      <section className="band">
+        <div>
+          <h2>{COURSE_UI.bandTitle}</h2>
+          <p>{COURSE_UI.bandText}</p>
+          <a className="btn" href={href('course')}>{COURSE_UI.bandCta}</a>
         </div>
       </section>
 

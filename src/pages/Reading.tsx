@@ -4,6 +4,7 @@ import { useLocalizer } from '../content/localize';
 import { Markdown } from '../md';
 import { go, href } from '../router';
 import { markRead, useProgress } from '../progress';
+import { PathToggle } from './Course';
 import { NotFound } from './Track';
 
 export default function ReadingPage({ id }: { id: string }) {
@@ -27,7 +28,8 @@ export default function ReadingPage({ id }: { id: string }) {
       <p className="eyebrow">{t(`reading.kind.${r.kind}`)} · {t('common.minutes', { count: r.minutes })}</p>
       <h1>{r.title}</h1>
       <p className="lead">{r.summary}</p>
-      <div className="prose"><Markdown src={r.body} /></div>
+      {r.body.includes(':::facilitator') && <PathToggle compact />}
+      <div className="prose"><Markdown src={r.body} hide={p.path === 'learner' ? ['facilitator'] : []} /></div>
       {page && <p className="fine">{t('reading.source', { page })}</p>}
       <div className="pager">
         {prev ? <a className="btn btn-ghost" href={href('read', prev.id)}>← {prev.title}</a> : <span />}

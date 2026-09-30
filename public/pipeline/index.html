@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#205a45">
+  <title>Green Gram Project Pipeline</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="assets/lucide.min.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to projects</a>
+  <div class="demo-bar"><a href="../" style="color:inherit;font-weight:700">&larr; Gram Urja</a><span>PROJECT PIPELINE</span><span>Demonstration <b aria-hidden="true">&middot;</b> Illustrative projects and images</span></div>
+  <header class="header">
+    <a class="brand" href="#projects"><span class="brand-mark" aria-hidden="true"><i data-lucide="sprout"></i></span><span>green gram<span class="brand-caption">PROJECT PIPELINE</span></span></a>
+    <label class="search"><i data-lucide="search"></i><span class="sr-only">Search projects</span><input id="search" type="search" placeholder="Search projects, places or needs"></label>
+    <nav aria-label="Main navigation">
+      <a href="#saved" class="nav-action" id="saved-link" aria-label="Saved projects" title="Saved projects"><i data-lucide="bookmark"></i><span>Saved</span><span id="saved-count" class="count">0</span></a>
+      <a href="#workspace" class="nav-action" aria-label="Workspace" title="Workspace"><i data-lucide="folder-open"></i><span>Workspace</span></a>
+      <a href="#new" class="button primary" aria-label="Post a project" title="Post a project"><i data-lucide="plus"></i><span>Post a project</span></a>
+      <button id="menu-toggle" class="icon-button" type="button" aria-label="Our work and deliverables" title="Our work and deliverables" aria-haspopup="dialog" aria-expanded="false" aria-controls="work-menu"><i data-lucide="menu"></i></button>
+    </nav>
+  </header>
+  <main id="main" tabindex="-1"></main>
+  <footer><a href="#projects">Green Gram Project Pipeline</a><span>Local priorities. Shared possibilities.</span><span>Demo drafts and offers stay in this browser.</span></footer>
+  <dialog id="work-menu" class="work-menu" aria-labelledby="work-menu-title">
+    <div class="dialog-head"><div><p class="eyebrow">GREEN GRAM</p><h2 id="work-menu-title">Our work &amp; deliverables</h2></div><button id="close-menu" class="icon-button" aria-label="Close menu" title="Close menu" autofocus><i data-lucide="x"></i></button></div>
+    <p class="menu-intro">Building local capacity to turn priorities into project concepts and partnerships.</p>
+    <nav aria-label="Our work">
+      <a href="#methodology"><i data-lucide="route"></i><span>Our methodology<small>Understand, imagine, test, plan and build partnerships</small></span><i data-lucide="chevron-right"></i></a>
+      <a href="#work/training"><i data-lucide="graduation-cap"></i><span>Capacity building &amp; training<small>Learning, facilitation and local ownership</small></span><i data-lucide="chevron-right"></i></a>
+      <a href="#work/strategy"><i data-lucide="compass"></i><span>Strategy &amp; project development<small>From local diagnosis to a project profile</small></span><i data-lucide="chevron-right"></i></a>
+      <a href="#work/scenarios"><i data-lucide="sliders-horizontal"></i><span>Scenarios &amp; financial thinking<small>Explore options, costs and potential returns</small></span><i data-lucide="chevron-right"></i></a>
+      <a href="#work/skills"><i data-lucide="users"></i><span>Skills &amp; knowledge sharing<small>Connect experience, expertise and solutions</small></span><i data-lucide="chevron-right"></i></a>
+      <a href="#work/finance"><i data-lucide="handshake"></i><span>Finance partnerships &amp; pitches<small>Prepare the ask and bring partners together</small></span><i data-lucide="chevron-right"></i></a>
+      <a href="#deliverables"><i data-lucide="files"></i><span>Our deliverables<small>What local teams take forward</small></span><i data-lucide="chevron-right"></i></a>
+    </nav>
+    <p class="menu-boundary">Technical assistance, feasibility studies, DPRs and infrastructure delivery are undertaken by external specialists and implementation partners.</p>
+    <nav class="menu-utilities" aria-label="Project navigation"><a href="#projects">Projects</a><a href="#saved">Saved</a><a href="#workspace">Workspace</a></nav>
+  </dialog>
+  <dialog id="offer-dialog" aria-labelledby="offer-title">
+    <div class="dialog-head"><div><p class="eyebrow">BUILD A PARTNERSHIP</p><h2 id="offer-title">Offer support</h2></div><button class="icon-button" id="close-offer" aria-label="Close offer form" title="Close"><i data-lucide="x"></i></button></div>
+    <p id="offer-project"></p>
+    <form id="offer-form">
+      <label>Your organisation<input name="organisation" required maxlength="120" autocomplete="organization"></label>
+      <label>What can you bring?<select name="kind"><option>Technical expertise</option><option>Feasibility support</option><option>Funding</option><option>Operating partnership</option><option>Product or solution</option><option>Community facilitation</option><option>Experience or project example</option></select></label>
+      <label>Your proposal<textarea name="message" required maxlength="3000" rows="4" placeholder="What you can contribute, what you need from the local team, and a suggested next step."></textarea></label>
+      <p class="form-note">This demonstration records your offer locally. It does not contact the Panchayat or send a message.</p>
+      <button class="button primary" type="submit"><i data-lucide="send"></i>Record demo offer</button>
+    </form>
+  </dialog>
+  <div id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

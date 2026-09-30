@@ -11,9 +11,14 @@ export type Progress = {
   seen: string[];
   /** track id -> notes by stage index */
   notes: Record<string, Record<string, PathwayNote>>;
+  /** Which layer of the course to show. Learner hides the facilitator boxes. */
+  path: 'learner' | 'facilitator';
+  /** Framework pathway: lessons finished, and the role the person chose. */
+  lessons: string[];
+  role: '' | 'community' | 'project' | 'district';
 };
 const KEY = 'gram-urja:v2';
-const empty = (): Progress => ({ read: [], ends: {}, quiz: {}, seen: [], notes: {} });
+const empty = (): Progress => ({ read: [], ends: {}, quiz: {}, seen: [], notes: {}, path: 'learner', lessons: [], role: '' });
 
 function load(): Progress {
   try {
@@ -45,4 +50,7 @@ export const recordQuiz = (track: string, score: number, total: number) => {
 };
 export const saveNote = (track: string, stage: number, note: PathwayNote) =>
   set({ ...state, notes: { ...state.notes, [track]: { ...(state.notes[track] || {}), [stage]: note } } });
+export const markLesson = (id: string) => { if (!state.lessons.includes(id)) set({ ...state, lessons: [...state.lessons, id] }); };
+export const setRole = (role: Progress['role']) => set({ ...state, role });
+export const setPath = (path: Progress['path']) => set({ ...state, path });
 export const resetProgress = () => set(empty());

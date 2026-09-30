@@ -1,6 +1,8 @@
 import { build } from 'esbuild';
-import { mkdir, writeFile } from 'node:fs/promises';
+import { mkdir, writeFile, cp } from 'node:fs/promises';
 await mkdir('dist', { recursive: true });
+// Static sections that ship as they are (the Green Gram Project Pipeline lives in public/pipeline).
+await cp('public', 'dist', { recursive: true });
 await build({ entryPoints: ['src/main.tsx'], bundle: true, format: 'esm', minify: true, outfile: 'dist/app.js', jsx: 'automatic', define: { 'process.env.NODE_ENV': '"production"' } });
 await writeFile('dist/index.html', `<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#2f5d3a"><title>Gram Urja: village energy, from 0 to 1</title><meta name="description" content="Learn how a village can move to clean energy, and the skills that make it work. Readings, scenarios, quizzes and a 0 to 1 view for biogas and solar."><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="/app.css"></head><body><div id="root"><p style="font:18px system-ui;padding:24px">Loading Gram Urja…</p></div><noscript>This site needs JavaScript to run.</noscript><script type="module" src="/app.js"></script></body></html>`);
 await writeFile('dist/favicon.svg', '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#2f5d3a"/><circle cx="10" cy="11" r="4" fill="#f2b632"/><path d="M6 25q10-14 20 0z" fill="#eaf0df"/></svg>');
