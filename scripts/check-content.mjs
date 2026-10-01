@@ -61,6 +61,26 @@ for (const m of MODULES) {
 for (const r of READINGS) if (/research/.test(r.source ? r.title : '') || r.title.startsWith('Research')) if (!used.has(r.id)) bad(`course: research reading ${r.id} is in no module`);
 
 // Framework pathway: lessons, answers, glossary terms and readings all resolve.
+const cr = await load('src/content/courses.ts');
+{
+  const ids = new Set(), stageIds = new Set((await load('src/content/framework.ts')).UNITS.map(u => u.id));
+  for (const c of cr.COURSES) {
+    if (!stageIds.has(c.feeds)) bad(`courses ${c.id}: unknown stage ${c.feeds}`);
+    for (const l of c.lessons) {
+      if (ids.has(l.id)) bad(`courses: duplicate lesson ${l.id}`); ids.add(l.id);
+      for (const r of l.readings) if (!readingIds.has(r)) bad(`courses ${l.id}: missing reading ${r}`);
+      let words = 0;
+      l.cards.forEach((k, i) => {
+        const text = k.body ?? k.q ?? '';
+        if (k.kind === 'read') words += text.split(/\s+/).length;
+        if (/\u2014/.test(text + (k.title ?? '') + (k.why ?? ''))) bad(`courses ${l.id}#${i}: em dash`);
+        if (k.kind === 'choice' && !(k.answer >= 0 && k.answer < k.options.length)) bad(`courses ${l.id}#${i}: answer out of range`);
+        for (const m of text.matchAll(/\[\[([\w-]+)\|/g)) if (!l.readings.includes(m[1])) bad(`courses ${l.id}#${i}: tag ${m[1]} not in lesson readings`);
+      });
+      if (words < 150 || words > 450) bad(`courses ${l.id}: ${words} words of reading, expected about 300`);
+    }
+  }
+}
 const fw = await load('src/content/framework.ts');
 const unitIds = new Set(fw.UNITS.map(u => u.id));
 const lessonIds = new Set();

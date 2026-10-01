@@ -1,14 +1,15 @@
 import { Fragment, type ReactNode } from 'react';
+import { href } from './router';
 
 /** A deliberately small Markdown subset for readings: headings, paragraphs, lists, tables,
  *  quotes, **bold**, *italic*, and ::: boxes (ask / note / warn) whose first line is the title. */
 export function Inline({ text }: { text: string }) {
   const out: ReactNode[] = [];
-  const re = /\*\*(.+?)\*\*|\*(.+?)\*/g;
+  const re = /\[\[([\w-]+)\|(.+?)\]\]|\*\*(.+?)\*\*|\*(.+?)\*/g;
   let last = 0, m: RegExpExecArray | null, i = 0;
   while ((m = re.exec(text))) {
     if (m.index > last) out.push(text.slice(last, m.index));
-    out.push(m[1] !== undefined ? <strong key={i++}>{m[1]}</strong> : <em key={i++}>{m[2]}</em>);
+    out.push(m[1] !== undefined ? <a key={i++} className="ev" href={href('read', m[1])}>{m[2]}</a> : m[3] !== undefined ? <strong key={i++}>{m[3]}</strong> : <em key={i++}>{m[4]}</em>);
     last = m.index + m[0].length;
   }
   if (last < text.length) out.push(text.slice(last));

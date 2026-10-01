@@ -382,3 +382,16 @@ main:focus-visible{outline:none}
 @media(max-width:700px){.entry-paths,.component-inspector{grid-template-columns:1fr;gap:12px}.entry-paths{margin:16px 0}.entry-paths a{padding:14px 0}.solar-controls{align-items:start;flex-direction:column}.component-hotspots button{width:28px;height:28px;font-size:12px}.component-tabs .pill{min-height:44px}.top nav{overflow:visible;flex-wrap:wrap;justify-content:flex-start;gap:4px}.top nav a{white-space:nowrap;flex:0 0 auto}.personal-steps{padding-left:18px}.cols{grid-template-columns:1fr}.cv-preview{padding:15px}}
 @media(prefers-reduced-motion:reduce){.solar-cloud{animation:none}.system-build{transition:none}}
 @media print{.personal-page>.lead,.personal-page>.field,.personal-page>p,.personal-steps>li:not(:last-child){display:none}.personal-steps{list-style:none;padding:0}.cv-preview{border:0;padding:0}.worksheet textarea{border:0;min-height:120px}}
+.ev{font-size:.82em;font-weight:600;text-decoration:none;background:#eaf0df;color:#2f5d3a;border-radius:4px;padding:1px 6px;white-space:nowrap}
+.ev:hover{background:#2f5d3a;color:#fff}
+.lc-list{display:grid;gap:14px;margin:20px 0}
+.lc-card{display:flex;gap:16px;align-items:flex-start;background:#fff;border:1px solid #cdd8cf;border-top:3px solid #2f5d3a;border-radius:8px;padding:18px 20px;text-decoration:none;color:inherit}
+.lc-card h2{margin:0 0 6px;font-size:1.25rem}.lc-card p{margin:0 0 6px}.lc-card.soon{opacity:.7;border-top-style:dashed}
+a.lc-card:hover{background:#f4f8ef}
+.lc-lessons{padding-left:22px}.lc-lessons li{padding:12px 0;border-bottom:1px solid #cdd8cf}.lc-lessons a{text-decoration:none}
+.lc-sources{columns:2;column-gap:32px;padding-left:20px}.lc-sources li{margin-bottom:6px;break-inside:avoid}
+.home-four{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:10px 0 30px}
+.home-part{display:flex;gap:16px;align-items:flex-start;background:#fff;border:1px solid #cdd8cf;border-top:3px solid #2f5d3a;border-radius:8px;padding:20px;text-decoration:none;color:inherit}
+.home-part h2{margin:0 0 6px}.home-part p{margin:0}
+a.home-part:hover{background:#f4f8ef}
+@media(max-width:700px){.home-four{grid-template-columns:1fr}.lc-sources{columns:1}}

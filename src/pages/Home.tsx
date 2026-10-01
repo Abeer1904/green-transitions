@@ -1,86 +1,30 @@
-import { Trans, useTranslation } from 'react-i18next';
-import { JOURNEYS, SCENARIOS, SKILLS, TRACKS, readingsFor } from '../content';
-import { useLocalizer } from '../content/localize';
 import { href } from '../router';
 import { useProgress } from '../progress';
-import { COURSE_UI } from '../content/course';
+import { LESSONS } from '../content/framework';
 
-const STEPS = ['read', 'see', 'try', 'check', 'skills', 'plan'] as const;
+const PARTS = [
+  { to: () => href('framework'), n: '1', name: 'Framework', line: 'Six steps from a national goal to a funded, working local project.' },
+  { to: () => href('learn'), n: '2', name: 'Learn', line: 'Short courses and a skills pathway, with a CV builder.' },
+  { to: () => href('play'), n: '3', name: 'Play', line: 'Scenarios a group plays to practise hard decisions.' },
+  { to: () => 'pipeline/index.html', n: '4', name: 'Projects', line: 'A directory where local projects meet partners.' },
+];
 
 export default function Home() {
-  const { t } = useTranslation();
-  const L = useLocalizer();
   const p = useProgress();
-  let resume = href('workspace'); try { const saved = localStorage.getItem('gram-urja:last-route'); if(saved && /^#\/(personal|workspace|practice|framework|course|see|read|track|skills|pathway|try|check)(\/|$)/.test(saved)) resume = saved; } catch {}
+  const started = LESSONS.some(l => p.lessons.includes(l.id));
   return (
     <>
       <section className="hero">
-        <p className="eyebrow">{t('home.eyebrow')}</p>
-        <h1><Trans i18nKey="home.title" components={{ zero: <span className="zero" />, one: <span className="one" /> }} /></h1>
-        <p className="lead"><Trans i18nKey="home.lead" components={{ b: <strong /> }} /></p>
-        <div className="entry-paths"><a href={href('personal')}><span>For myself</span><strong>Find my role. Build my skills.</strong><small>Learning, practice and my CV →</small></a><a href={href('framework')}><span>For our village</span><strong>Turn a local need into a project.</strong><small>Framework, decisions and a working plan →</small></a></div>
-        <p className="journey-links"><a href={href('see','solar')}>Explore solar 0→1 →</a><a href={href('see','biogas')}>Explore biogas 0→1 →</a><a href={resume}>Continue where I left off →</a></p>
+        <p className="eyebrow">Gram Urja</p>
+        <h1>From zero to one on your climate journey</h1>
+        <p className="lead">How does a village or a small city take a national climate goal and make it local? Filter it, learn what it means, find solutions, turn them into projects, fund them and build them. This site walks you through each step.</p>
+        <p><a className="btn btn-big" href={href('framework')}>{started ? 'Continue the framework' : 'Start with the framework'} →</a></p>
       </section>
-
       <section>
-        <h2 className="section-title">{t('home.chooseTrack')}</h2>
-        <div className="grid">
-          {TRACKS.map(x => {
-            const rs = readingsFor(x.id);
-            const read = rs.filter(r => p.read.includes(r.id)).length;
-            const lt = L.track(x);
-            const inner = (
-              <>
-                <span className={`chip hue-${x.hue}`}>{t(`home.status.${x.status}`)}</span>
-                <h3>{lt.name}</h3>
-                <p>{lt.tagline}</p>
-                {x.status !== 'soon' && <p className="meta">{t('home.readingCount', { count: rs.length })}{read ? ` · ${t('home.doneCount', { count: read })}` : ''}{JOURNEYS[x.id] ? ` · ${t('home.view01')}` : ''}</p>}
-              </>
-            );
-            return x.status === 'soon'
-              ? <div key={x.id} className={`card track-card soon hue-${x.hue}`}>{inner}</div>
-              : <a key={x.id} className={`card track-card hue-${x.hue}`} href={href('track', x.id)}>{inner}</a>;
-          })}
+        <div className="home-four">
+          {PARTS.map(x => <a key={x.name} className="home-part" href={x.to()}><span className="step-n">{x.n}</span><div><h2>{x.name}</h2><p>{x.line}</p></div></a>)}
         </div>
       </section>
-
-      <section className="band">
-        <div>
-          <h2>{t('home.pipelineTitle')}</h2>
-          <p>{t('home.pipelineText')}</p>
-          <a className="btn" href="pipeline/index.html">{t('home.pipelineCta')}</a>
-        </div>
-      </section>
-
-      <section className="band">
-        <div>
-          <h2>{COURSE_UI.bandTitle}</h2>
-          <p>{COURSE_UI.bandText}</p>
-          <a className="btn" href={href('course')}>{COURSE_UI.bandCta}</a>
-        </div>
-      </section>
-
-      <section>
-        <h2 className="section-title">{t('home.howTitle')}</h2>
-        <ol className="steps">
-          {STEPS.map((s, i) => <li key={s}><span className="step-n">{i + 1}</span><div><strong>{t(`home.steps.${s}.title`)}</strong><p>{t(`home.steps.${s}.text`)}</p></div></li>)}
-        </ol>
-        <p className="hint">{t('home.hint')}</p>
-      </section>
-
-      <section className="band">
-        <div>
-          <h2>{t('home.skillsBandTitle')}</h2>
-          <p>{t('home.skillsBandText', { count: SKILLS.length })}</p>
-          <a className="btn" href={href('skills')}>{t('home.browseSkills')}</a>
-        </div>
-        <div>
-          <h2>{t('home.scenariosTitle', { count: SCENARIOS.length })}</h2>
-          <p>{t('home.scenariosText')}</p>
-        </div>
-      </section>
-
-      <p className="fine"><Trans i18nKey="home.fine" components={{ i: <em /> }} /></p>
     </>
   );
 }

@@ -110,7 +110,7 @@ function TermList({ ids }: { ids: string[] }) {
   );
 }
 
-function ChoiceCard({ c, onDone }: { c: Extract<Card, { kind: 'choice' }>; onDone: () => void }) {
+export function ChoiceCard({ c, onDone }: { c: Extract<Card, { kind: 'choice' }>; onDone: () => void }) {
   const [picked, setPicked] = useState<number | null>(null);
   const right = picked === c.answer;
   return (
@@ -125,7 +125,7 @@ function ChoiceCard({ c, onDone }: { c: Extract<Card, { kind: 'choice' }>; onDon
   );
 }
 
-function MatchCard({ c, onDone }: { c: Extract<Card, { kind: 'match' }>; onDone: () => void }) {
+export function MatchCard({ c, onDone }: { c: Extract<Card, { kind: 'match' }>; onDone: () => void }) {
   const rights = useMemo(() => [...c.pairs.map(p => p[1])].sort((a, b) => a.localeCompare(b)), [c]);
   const [sel, setSel] = useState<string[]>(() => c.pairs.map(() => ''));
   const [checked, setChecked] = useState(false);

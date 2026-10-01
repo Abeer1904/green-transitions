@@ -17,11 +17,19 @@ import Skills from './pages/Skills';
 import Pathway from './pages/Pathway';
 import Course from './pages/Course';
 import Framework from './pages/Framework';
+import Library from './pages/Library';
+import Learn from './pages/Learn';
+import Play from './pages/Play';
+import Projects from './pages/Projects';
 
 function Page({ parts }: { parts: string[] }) {
   const [a, b] = parts;
   switch (a) {
     case undefined: return <Home />;
+    case 'library': return <Library />;
+    case 'learn': return <Learn parts={parts.slice(1)} />;
+    case 'play': return <Play />;
+    case 'projects': return <Projects />;
     case 'track': return b ? <Track id={b} /> : <NotFound />;
     case 'read': return b ? <ReadingPage id={b} /> : <NotFound />;
     case 'see': return b ? <See id={b} /> : <NotFound />;
@@ -50,18 +58,16 @@ export default function App() {
       <header className="top no-print">
         <a className="brand" href={href()}><svg viewBox="0 0 32 32" width="32" height="32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#2f5d3a" /><circle cx="10" cy="11" r="4" fill="#f2b632" /><path d="M6 25 q10 -14 20 0z" fill="#eaf0df" /></svg><span>{t('brand')}</span></a>
         <nav aria-label={t('nav.main')}>
-          <a href={href()} aria-current={!parts.length ? 'page' : undefined}>{i18n.resolvedLanguage === 'hi' ? 'सिस्टम' : 'Systems'}</a>
-          <a href={href('personal')} aria-current={parts[0] === 'personal' || parts[0] === 'skills' ? 'page' : undefined}>{i18n.resolvedLanguage === 'hi' ? 'मेरे कौशल' : 'My skills'}</a>
-          <a href={href('framework')} aria-current={active === 'framework' ? 'page' : undefined}>{t('nav.framework')}</a>
-          <a href={href('course')} aria-current={active === 'course' ? 'page' : undefined}>{t('nav.course')}</a>
-          <a href={href('workspace')} aria-current={parts[0] === 'workspace' ? 'page' : undefined}>{i18n.resolvedLanguage === 'hi' ? 'कार्यस्थल' : 'Workspace'}</a>
-          <a href="pipeline/index.html">{t('nav.pipeline')}</a>
+          <a href={href('framework')} aria-current={active === 'framework' ? 'page' : undefined}>Framework</a>
+          <a href={href('learn')} aria-current={['learn','course','skills','personal','practice','library','track','see','read','check','pathway'].includes(parts[0]) ? 'page' : undefined}>Learn</a>
+          <a href={href('play')} aria-current={['play','try'].includes(parts[0]) ? 'page' : undefined}>Play</a>
+          <a href={href('projects')} aria-current={['projects','workspace'].includes(parts[0]) ? 'page' : undefined}>Projects</a>
         </nav>
         <div className="lang" role="group" aria-label={t('language')}>
           {LANGUAGES.map(l => <button key={l.code} lang={l.code} className={i18n.resolvedLanguage === l.code ? 'pill on' : 'pill'} aria-pressed={i18n.resolvedLanguage === l.code} onClick={() => i18n.changeLanguage(l.code)}>{l.label}</button>)}
         </div>
       </header>
-      <main id="main" tabIndex={-1}>{i18n.resolvedLanguage === 'hi' && ['personal','workspace','practice','framework','course'].includes(parts[0]) && <p className="hint" lang="hi">यह नया भाग अभी अंग्रेज़ी में है। हिन्दी अनुवाद की समीक्षा बाकी है।</p>}<Page parts={parts} /></main>
+      <main id="main" tabIndex={-1}>{i18n.resolvedLanguage === 'hi' && ['personal','workspace','practice','framework','course','learn','play','projects','library'].includes(parts[0]) && <p className="hint" lang="hi">यह नया भाग अभी अंग्रेज़ी में है। हिन्दी अनुवाद की समीक्षा बाकी है।</p>}<Page parts={parts} /></main>
       <footer className="foot no-print"><p>{t('footer')}</p></footer>
     </>
   );
