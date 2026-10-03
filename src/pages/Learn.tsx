@@ -20,10 +20,14 @@ function Hub() {
     <div className="hue-green">
       <p className="crumbs"><a href={href()}>Home</a> / Learn</p>
       <p className="eyebrow">Learn · green skills pathway</p>
-      <h1>Research courses and sources</h1><p><a href={href('learn')}>← Return to the guided learning pathway</a></p>
-      <p className="lead">Five short courses, built from the research. Each lesson is about 300 words, takes five minutes and ends with a question. Every claim carries a tag that opens the source.</p>
+      <h1>Courses</h1>
+      <p className="lead">Seven courses built from the research and the practical guides: evidence, biogas, solar, water, uptake, skills and health. Each lesson is a few minutes and ends with a question or a group exercise. Every claim carries a tag that opens the source.</p>
       <p>{next && <a className="btn btn-big" href={href('learn', courseOf(next.id)!.id, next.id)}>{done ? 'Continue' : 'Start'}: {next.title} →</a>} <span className="meta">{done} of {ALL.length} lessons done</span></p>
       <div className="lc-list">
+        <a className="lc-card" href={href('learn', 'path')}>
+          <span className="step-n">▶</span>
+          <div><h2>Start here: a guided foundation</h2><p>Follow one fictional village, Neemgaon, from a water problem to a reasoned plan. About an hour, six steps, with outputs you keep.</p></div>
+        </a>
         {COURSES.map(c => {
           const d = c.lessons.filter(l => p.lessons.includes(l.id)).length;
           return (
@@ -114,9 +118,8 @@ function Player({ courseId, l }: { courseId: string; l: CourseLesson }) {
 
 export default function Learn({ parts }: { parts: string[] }) {
   const [course, lesson] = parts;
-  if (!course) return <Foundation />;
+  if (!course || course === 'sources') return <Hub />;
   if (course === 'path') return <Foundation key={lesson} id={lesson} />;
-  if (course === 'sources') return <Hub />;
   if (!lesson) return <CoursePage id={course} />;
   const l = courseById(course)?.lessons.find(x => x.id === lesson);
   return l ? <Player key={l.id} courseId={course} l={l} /> : <NotFound />;

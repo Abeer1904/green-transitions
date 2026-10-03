@@ -2,6 +2,7 @@
  *  Every claim carries an evidence tag: [[reading-id|label]] links to the paper's brief in the sources library.
  *  English only for now. */
 import type { Card } from './framework';
+import { BIOGAS_COURSE, SOLAR_COURSE, WATER_RAIN_LESSON, EVIDENCE_CAPSTONE } from './courses-practical';
 
 export type CourseLesson = {
   id: string;
@@ -23,7 +24,7 @@ export type CourseDef = {
   lessons: CourseLesson[];
 };
 
-export const COURSES: CourseDef[] = [
+const BASE: CourseDef[] = [
   {
     id: 'evidence', n: 0, title: 'Reading the evidence', feeds: 'filter',
     question: 'What do the studies agree on, and what has nobody studied for a Haryana village?',
@@ -186,6 +187,18 @@ export const COURSES: CourseDef[] = [
     ],
   },
 ];
+
+const pick = (id: string) => BASE.find(c => c.id === id)!;
+const ORDER: CourseDef[] = [
+  { ...pick('evidence'), lessons: [...pick('evidence').lessons, EVIDENCE_CAPSTONE] },
+  BIOGAS_COURSE,
+  SOLAR_COURSE,
+  { ...pick('water'), lessons: [WATER_RAIN_LESSON, ...pick('water').lessons] },
+  pick('uptake'),
+  pick('skills'),
+  pick('health'),
+];
+export const COURSES: CourseDef[] = ORDER.map((c, i) => ({ ...c, n: i }));
 
 export const courseById = (id: string) => COURSES.find(c => c.id === id);
 export const courseLessonById = (id: string) => COURSES.flatMap(c => c.lessons).find(l => l.id === id);
