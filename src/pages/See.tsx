@@ -5,7 +5,8 @@ import { useLocalizer } from '../content/localize';
 import { dungKg, surya } from '../content/tools';
 import { go, href } from '../router';
 import { markSeen } from '../progress';
-import BiogasScene from '../viz/BiogasScene';
+import BiogasExplorer from '../viz/BiogasExplorer';
+import NextObservation from '../viz/NextObservation';
 import SolarExplorer from '../viz/SolarExplorer';
 import { NotFound } from './Track';
 
@@ -92,11 +93,12 @@ export default function See({ id }: { id: string }) {
           <div><p className="eyebrow">{t(i < 3 ? 'engineering.planning' : i === 3 ? 'engineering.construction' : 'engineering.operating')}</p><strong>{t(`engineering.${id}.title`)}</strong></div>
           <button className="pill" aria-pressed={paused} onClick={() => setPaused(p => !p)}>{t(paused ? 'sceneDetail.resume' : 'sceneDetail.pause')}</button>
         </div>
-        {id === 'solar' ? <div className={`focus-${focus}`}><SolarExplorer stage={i} paused={paused} label={label}/></div> : <><p className="diagram-scroll-hint">{t('engineering.scroll')}</p><div className={`scene-wrap focus-${focus} ${paused ? 'scene-paused' : ''}`} tabIndex={0} role="region" aria-label={t(`engineering.${id}.title`)}><BiogasScene stage={i} label={label}/></div></>}
+        {id === 'solar' ? <div className={`focus-${focus}`}><SolarExplorer stage={i} paused={paused} label={label}/></div> : <div className={`focus-${focus}`}><BiogasExplorer stage={i} paused={paused} label={label}/></div>}
+
         <div className="scene-explainer">
           <div className="scene-flow-controls" role="group" aria-label={t('sceneDetail.focus')}>
             <button className="pill" aria-pressed={focus === 'all'} onClick={() => setFocus('all')}>{t('sceneDetail.all')}</button>
-            {['input', 'energy', 'output'].map((kind, n) => <button key={kind} className="pill" aria-pressed={focus === kind} onClick={() => setFocus(kind)}><span className={`flow-key flow-key-${id}-${kind}`}>{n + 1}</span>{t(`sceneDetail.${id}.${kind}`)}</button>)}
+            {['input', 'energy', 'output'].map((kind, n) => <button key={kind} className="pill" aria-pressed={focus === kind} onClick={() => setFocus(kind)}><span aria-hidden="true" className={`flow-key flow-key-${id}-${kind}`}>↝</span>{t(`sceneDetail.${id}.${kind}`)}</button>)}
           </div>
           <p className="scene-flow-caption" aria-live="polite">{t(i < 4 ? `sceneDetail.${id}.before` : `sceneDetail.${id}.${focus}Detail`)}</p>
           <button className="link-btn" aria-expanded={showComponents} onClick={() => setShowComponents(v => !v)}>{t('engineering.components')} {showComponents ? '−' : '+'}</button>
@@ -141,7 +143,7 @@ export default function See({ id }: { id: string }) {
 
       {id === 'biogas' ? <FeedstockCheck /> : <><p className="journey-links"><a className="btn" href={href('practice')}>Practise solar decisions →</a><a href={href('workspace')}>Record our village evidence →</a></p><details><summary>Separate application: rooftop solar subsidy example</summary><p>This calculator concerns rooftop electricity, not the irrigation system above.</p><SubsidyCalc /></details></>}
 
-      <p className="next-links"><a className="btn btn-ghost" href={href('track', base.id)}>{t('see.backToTrack', { name: tr.short })}</a> <a className="btn" href={href('pathway', base.id)}>{t('see.plan')}</a></p>
+      <NextObservation id={id === 'solar' ? 'solar' : 'biogas'}/><p className="next-links"><a className="btn btn-ghost" href={href('track', base.id)}>{t('see.backToTrack', { name: tr.short })}</a> <a className="btn" href={href('pathway', base.id)}>{t('see.plan')}</a></p>
     </div>
   );
 }

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Foundation from './Foundation';
 import { COURSES, courseById, courseOf, type CourseLesson } from '../content/courses';
 import { UNITS } from '../content/framework';
 import { readingById } from '../content';
@@ -19,7 +20,7 @@ function Hub() {
     <div className="hue-green">
       <p className="crumbs"><a href={href()}>Home</a> / Learn</p>
       <p className="eyebrow">Learn · green skills pathway</p>
-      <h1>Learn the evidence and the skills</h1>
+      <h1>Research courses and sources</h1><p><a href={href('learn')}>← Return to the guided learning pathway</a></p>
       <p className="lead">Five short courses, built from the research. Each lesson is about 300 words, takes five minutes and ends with a question. Every claim carries a tag that opens the source.</p>
       <p>{next && <a className="btn btn-big" href={href('learn', courseOf(next.id)!.id, next.id)}>{done ? 'Continue' : 'Start'}: {next.title} →</a>} <span className="meta">{done} of {ALL.length} lessons done</span></p>
       <div className="lc-list">
@@ -113,7 +114,9 @@ function Player({ courseId, l }: { courseId: string; l: CourseLesson }) {
 
 export default function Learn({ parts }: { parts: string[] }) {
   const [course, lesson] = parts;
-  if (!course) return <Hub />;
+  if (!course) return <Foundation />;
+  if (course === 'path') return <Foundation key={lesson} id={lesson} />;
+  if (course === 'sources') return <Hub />;
   if (!lesson) return <CoursePage id={course} />;
   const l = courseById(course)?.lessons.find(x => x.id === lesson);
   return l ? <Player key={l.id} courseId={course} l={l} /> : <NotFound />;

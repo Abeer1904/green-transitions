@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import BiogasScene from '../viz/BiogasScene';
+import BiogasExplorer from '../viz/BiogasExplorer';
+import NextObservation from '../viz/NextObservation';
 import SolarExplorer from '../viz/SolarExplorer';
 import { href } from '../router';
 import { NotFound } from './Track';
@@ -78,11 +79,12 @@ function Detail({ tech }: { tech: Tech }) {
         </div>
         {id === 'solar'
           ? <div className={`focus-${focus}`}><SolarExplorer stage={stage} paused={paused} label={label} /></div>
-          : <><p className="diagram-scroll-hint">{t('engineering.scroll')}</p><div className={`scene-wrap focus-${focus} ${paused ? 'scene-paused' : ''}`} tabIndex={0} role="region" aria-label={label}><BiogasScene stage={stage} label={label} /></div></>}
+          : <div className={`focus-${focus}`}><BiogasExplorer stage={stage} paused={paused} label={label}/></div>}
+
         <div className="scene-explainer">
           <div className="scene-flow-controls" role="group" aria-label={t('sceneDetail.focus')}>
             <button className="pill" aria-pressed={focus === 'all'} onClick={() => setFocus('all')}>{t('sceneDetail.all')}</button>
-            {['input', 'energy', 'output'].map((kind, n) => <button key={kind} className="pill" aria-pressed={focus === kind} onClick={() => setFocus(kind)}><span className={`flow-key flow-key-${id}-${kind}`}>{n + 1}</span>{t(`sceneDetail.${id}.${kind}`)}</button>)}
+            {['input', 'energy', 'output'].map((kind, n) => <button key={kind} className="pill" aria-pressed={focus === kind} onClick={() => setFocus(kind)}><span aria-hidden="true" className={`flow-key flow-key-${id}-${kind}`}>↝</span>{t(`sceneDetail.${id}.${kind}`)}</button>)}
           </div>
           <p className="scene-flow-caption" aria-live="polite">{operating ? t(`sceneDetail.${id}.${focus}Detail`) : t(`sceneDetail.${id}.before`)}</p>
           <button className="link-btn" aria-expanded={showComponents} onClick={() => setShowComponents(v => !v)}>{t('engineering.components')} {showComponents ? '−' : '+'}</button>
@@ -90,7 +92,7 @@ function Detail({ tech }: { tech: Tech }) {
           <details className="diagram-sources"><summary>{t('engineering.sources')}</summary><p>{t('engineering.scope')}</p><a href={tech.source.url} target="_blank" rel="noreferrer">{tech.source.label} ↗</a></details>
         </div>
       </div>
-      <h2 className="section-title">Go further</h2>
+      <NextObservation id={id}/><h2 className="section-title">Reference and pathway</h2>
       <div className="journey-links">
         <a href={href('see', id)}>From nothing to a working service, step by step →</a>
         <a href={href('skills', id)}>Skills and training for this technology →</a>
