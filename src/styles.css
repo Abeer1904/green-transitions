@@ -395,3 +395,4 @@ a.lc-card:hover{background:#f4f8ef}
 .home-part h2{margin:0 0 6px}.home-part p{margin:0}
 a.home-part:hover{background:#f4f8ef}
 @media(max-width:700px){.home-four{grid-template-columns:1fr}.lc-sources{columns:1}}
+.viz-stages{display:flex;gap:6px;flex-wrap:wrap}

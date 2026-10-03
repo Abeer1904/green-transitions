@@ -21,6 +21,7 @@ import Library from './pages/Library';
 import Learn from './pages/Learn';
 import Play from './pages/Play';
 import Projects from './pages/Projects';
+import Visualise from './pages/Visualise';
 
 function Page({ parts }: { parts: string[] }) {
   const [a, b] = parts;
@@ -28,6 +29,7 @@ function Page({ parts }: { parts: string[] }) {
     case undefined: return <Home />;
     case 'library': return <Library />;
     case 'learn': return <Learn parts={parts.slice(1)} />;
+    case 'visualise': return <Visualise parts={parts.slice(1)} />;
     case 'play': return <Play />;
     case 'projects': return <Projects />;
     case 'track': return b ? <Track id={b} /> : <NotFound />;
@@ -60,6 +62,7 @@ export default function App() {
         <nav aria-label={t('nav.main')}>
           <a href={href('framework')} aria-current={active === 'framework' ? 'page' : undefined}>Framework</a>
           <a href={href('learn')} aria-current={['learn','course','skills','personal','practice','library','track','see','read','check','pathway'].includes(parts[0]) ? 'page' : undefined}>Learn</a>
+          <a href={href('visualise')} aria-current={parts[0] === 'visualise' ? 'page' : undefined}>Visualise</a>
           <a href={href('play')} aria-current={['play','try'].includes(parts[0]) ? 'page' : undefined}>Play</a>
           <a href={href('projects')} aria-current={['projects','workspace'].includes(parts[0]) ? 'page' : undefined}>Projects</a>
         </nav>
@@ -67,7 +70,7 @@ export default function App() {
           {LANGUAGES.map(l => <button key={l.code} lang={l.code} className={i18n.resolvedLanguage === l.code ? 'pill on' : 'pill'} aria-pressed={i18n.resolvedLanguage === l.code} onClick={() => i18n.changeLanguage(l.code)}>{l.label}</button>)}
         </div>
       </header>
-      <main id="main" tabIndex={-1}>{i18n.resolvedLanguage === 'hi' && ['personal','workspace','practice','framework','course','learn','play','projects','library'].includes(parts[0]) && <p className="hint" lang="hi">यह नया भाग अभी अंग्रेज़ी में है। हिन्दी अनुवाद की समीक्षा बाकी है।</p>}<Page parts={parts} /></main>
+      <main id="main" tabIndex={-1}>{i18n.resolvedLanguage === 'hi' && ['personal','workspace','practice','framework','course','learn','play','projects','library','visualise'].includes(parts[0]) && <p className="hint" lang="hi">यह नया भाग अभी अंग्रेज़ी में है। हिन्दी अनुवाद की समीक्षा बाकी है।</p>}<Page parts={parts} /></main>
       <footer className="foot no-print"><p>{t('footer')}</p></footer>
     </>
   );

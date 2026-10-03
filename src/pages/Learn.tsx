@@ -38,6 +38,7 @@ function Hub() {
         <a href={href('personal')}>My skills and CV builder →</a>
         <a href={href('skills')}>Skills directory →</a>
         <a href={href('practice')}>Guided practice →</a>
+        <a href={href('visualise')}>See how technologies work →</a>
         <a href={href('library')}>Technology guides →</a>
         <a href={href('course')}>Facilitator session plans →</a>
       </div>
