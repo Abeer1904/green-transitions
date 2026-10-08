@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import SolarScene from '../viz/SolarScene';
+import BiogasScene from '../viz/BiogasScene';
 import BiogasExplorer from '../viz/BiogasExplorer';
 import NextObservation from '../viz/NextObservation';
 import SolarExplorer from '../viz/SolarExplorer';
@@ -27,21 +29,22 @@ const STAGES = [
 ] as const;
 
 function Hub() {
+  const [activity,setActivity]=useState('all');
   return (
     <div className="hue-green">
       <p className="crumbs"><a href={href()}>Home</a> / Visualise</p>
       <p className="eyebrow">Visualise · how technologies work</p>
-      <h1>See how the technology works</h1>
-      <p className="lead">Technical diagrams you can explore. Switch between planning, installation and operation, follow one flow at a time, and open each component to see who looks after it. These are conceptual schematics, not installation plans.</p>
-      <div className="lc-list">
-        {LIVE.map(t => (
-          <a key={t.id} className="lc-card" href={href('visualise', t.id)}>
-            <span className="step-n">◧</span>
-            <div><h2>{t.name}</h2><p>{t.line}</p></div>
+      <h1>Start with what energy makes possible</h1>
+      <p className="lead">Choose an everyday activity. Explore its energy system, the people it depends on and the questions to investigate in your place.</p>
+      <div className="place-switch" role="group" aria-label="Activity">{[['all','All available systems'],['solar','Irrigation'],['biogas','Cooking & organic waste']].map(([id,name])=><button className="pill" key={id} aria-pressed={activity===id} onClick={()=>setActivity(id)}>{name}</button>)}</div><div className="visual-atlas">
+        {LIVE.filter(t=>activity==='all'||activity===t.id).map(t => (
+          <a key={t.id} className="atlas-entry" href={href('visualise', t.id)}>
+            <div className="atlas-preview scene-paused" aria-hidden="true">{t.id === 'solar' ? <SolarScene stage={5} label={t.name}/> : <BiogasScene stage={5} label={t.name}/>}</div>
+            <div className="atlas-caption"><p className="eyebrow">Interactive system · {t.id === 'solar' ? '01' : '02'}</p><h2>{t.name}</h2><p>{t.line}</p><span>Explore the system →</span></div>
           </a>
         ))}
       </div>
-      <h2 className="section-title">Coming</h2>
+      <section className="learning-case"><h2>Investigate the whole activity</h2><p>Look beyond equipment: what energy is used, what emissions need assessing, whose time and work are affected, and who controls access?</p><a href={href('projects')}>Take these questions into a local project →</a></section><details className="learning-resources"><summary>Other systems planned</summary>
       <div className="lc-list">
         {SOON.map(t => (
           <div key={t.name} className="lc-card soon">
@@ -49,7 +52,7 @@ function Hub() {
             <div><h2>{t.name}</h2><p>{t.line}</p></div>
           </div>
         ))}
-      </div>
+      </div></details>
     </div>
   );
 }
@@ -92,7 +95,7 @@ function Detail({ tech }: { tech: Tech }) {
           <details className="diagram-sources"><summary>{t('engineering.sources')}</summary><p>{t('engineering.scope')}</p><a href={tech.source.url} target="_blank" rel="noreferrer">{tech.source.label} ↗</a></details>
         </div>
       </div>
-      <NextObservation id={id}/><h2 className="section-title">Reference and pathway</h2>
+      <section className="system-questions"><h2>Who and what changes with this system?</h2><div className="tool-paths"><div><h3>Energy & emissions</h3><p>{id==='solar'?'What currently powers irrigation? Record fuel or electricity use, water demand and the comparison needed before estimating any emissions change.':'What cooking fuel and waste handling would this replace? Investigate feedstock, gas losses and actual use before estimating an emissions change.'}</p></div><div><h3>Gender, work & access</h3><p>{id==='solar'?'Who owns the land, controls the pump and sets the water schedule? Who can attend training, and who is excluded from the service?':'Who collects feedstock and water, cooks and handles slurry? Whose time changes, who makes decisions and who can access training?'}</p></div><div><h3>Service & impact</h3><p>Which daily activity should improve? Agree with affected people what to observe, whose experience to include and when to review the result.</p></div><div><h3>People & capabilities</h3><p>Explore the roles needed to keep the service working, then identify existing skills and gaps.</p><a href={href('skills',id)}>Explore skills →</a></div></div><p className="fine">These are investigation prompts, not measured impacts. The diagrams show qualitative behaviour, not calculated emissions or engineering designs.</p></section><NextObservation id={id}/><h2 className="section-title">Reference and pathway</h2>
       <div className="journey-links">
         <a href={href('see', id)}>From nothing to a working service, step by step →</a>
         <a href={href('skills', id)}>Skills and training for this technology →</a>

@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import { useId, type ReactNode } from 'react';
 
 /** Fades a group in once the journey reaches `from` (and out again after `until`). */
 export function Show({ stage, from, until = 99, children }: { stage: number; from: number; until?: number; children: ReactNode }) {
@@ -75,9 +75,11 @@ export function Sky({ ground = '#cdb47c' }: { ground?: string }) {
 
 /** A continuous pipe/cable remains visible while direction markers move over it. */
 export function ProcessFlow({ d, kind, color, active = true }: { d: string; kind: string; color: string; active?: boolean }) {
+  const arrow = useId().replace(/:/g, "");
   return <g className={`process-flow process-${kind} ${active ? 'process-active' : ''}`} aria-hidden="true">
+    <defs><marker id={arrow} viewBox="0 0 10 10" refX="8" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M1 1L9 5L1 9Z" fill={color}/></marker></defs>
     <path d={d} fill="none" stroke="#fffaf0" strokeWidth="10" strokeLinejoin="round" strokeLinecap="round" />
-    <path d={d} fill="none" stroke={color} strokeWidth="6" strokeLinejoin="round" strokeLinecap="round" />
+    <path d={d} fill="none" stroke={color} markerEnd={active ? `url(#${arrow})` : undefined} strokeWidth="6" strokeLinejoin="round" strokeLinecap="round" />
     {active && <path className="process-direction" d={d} fill="none" stroke="#fffaf0" strokeWidth="2.5" strokeDasharray="3 19" strokeLinecap="round" />}
   </g>;
 }

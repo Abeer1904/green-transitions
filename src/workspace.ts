@@ -2,9 +2,9 @@ import { useSyncExternalStore } from 'react';
 export type Evidence = { id: string; role: string; title: string; detail: string; kind: 'Practice / self-reported' | 'Assessed practical work'; assessor: string; date: string };
 export type Output = { text: string; owner: string; evidence: string; next: string };
 export type FoundationEntry = { visited:boolean; checked:boolean; complete:boolean; answers:number[]; fields:Record<string,string> };
-type Workspace = { foundation: Record<string,FoundationEntry>; name: string; place: string; experience: string; support: string; role: string; evidence: Evidence[]; outputs: Record<string, Output>; exercises: string[] };
+type Workspace = { vision: Record<string,string>; navapur: Record<string,string>; foundation: Record<string,FoundationEntry>; name: string; place: string; experience: string; support: string; role: string; evidence: Evidence[]; outputs: Record<string, Output>; exercises: string[] };
 const KEY = 'gram-urja:workspace:v1';
-const blank: Workspace = { foundation: {}, name: '', place: '', experience: '', support: '', role: 'sol-operator', evidence: [], outputs: {}, exercises: [] };
+const blank: Workspace = { vision: {}, navapur: {}, foundation: {}, name: '', place: '', experience: '', support: '', role: 'sol-operator', evidence: [], outputs: {}, exercises: [] };
 let state: Workspace = blank;
 try { const saved = JSON.parse(localStorage.getItem(KEY) || 'null'); if (saved && Array.isArray(saved.evidence) && saved.outputs && Array.isArray(saved.exercises)) state = { ...blank, ...saved }; } catch {}
 let storageOK = true;

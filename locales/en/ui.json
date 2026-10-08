@@ -14,6 +14,7 @@
     "pipeline": "Project pipeline",
     "framework": "Framework"
   },
+  "supportAcknowledgement": "Gram Urja is supported by the Heinrich Boell Stiftung.",
   "footer": "Gram Urja is a learning tool for village energy transitions. Content adapted from the Green Skill directory for rural Haryana. Details of schemes, prices and courses change, so always confirm them.",
   "common": {
     "notFound": "Page not found",

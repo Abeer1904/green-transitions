@@ -1,26 +1,7 @@
 import { href } from '../router';
-
+import { UNITS } from '../content/framework';
+import { useWorkspace } from '../workspace';
 export default function Projects() {
-  return (
-    <div className="hue-green">
-      <p className="crumbs"><a href={href()}>Home</a> / Projects</p>
-      <p className="eyebrow">Projects · from a plan to a funded project</p>
-      <h1>Turn a local need into a project</h1>
-      <p className="lead">This is where the framework ends up. Work through the stages, write each stage’s output in your workspace, then prepare a project draft. The directory is a demonstration: drafts and support offers stay in your browser and are not sent to partners.</p>
-      <div className="lc-list">
-        <a className="lc-card" href={href('workspace')}>
-          <span className="step-n">1</span>
-          <div><h2>My workspace</h2><p>Write the output of each framework stage: the problem, the evidence, the owners and the next step. Turn it into a project draft.</p></div>
-        </a>
-        <a className="lc-card" href="pipeline/index.html">
-          <span className="step-n">2</span>
-          <div><h2>Project directory (Green Gram)</h2><p>Browse projects, see what each one still needs, and prepare your own draft and identify the support you would need.</p></div>
-        </a>
-        <a className="lc-card" href={href('framework')}>
-          <span className="step-n">3</span>
-          <div><h2>The framework</h2><p>Filter, Contextualise, Prioritise, Solutioning, Fund, Implement. Start here if you have not yet defined the local problem.</p></div>
-        </a>
-      </div>
-    </div>
-  );
+ const w=useWorkspace(); const started=UNITS.filter(u=>w.outputs[u.id]?.text.trim());const next=UNITS.find(u=>!w.outputs[u.id]?.text.trim())||UNITS[0];
+ return <><p className="crumbs"><a href={href('gram-urja')}>Gram Urja</a> / Projects</p><p className="eyebrow">Projects · plan the next step</p><h1>Turn a local problem into a project plan</h1><p className="lead">Start by describing the problem and who it affects. Then gather evidence, compare possible responses and identify the people, skills and funding needed to move forward.</p><section className="learning-case"><h2>{w.place ? `Your work in ${w.place}` : 'Your project worksheet'}</h2><p>{started.length} of 6 stages have draft notes. Notes record preparation; they do not establish feasibility or approval.</p><a className="btn" href={href('workspace',next.id)}>{started.length?'Continue your worksheet':'Define the local problem'} →</a><p className="fine">Saved in this browser. Export your work from the workspace before switching devices.</p></section><h2>Work through the six stages</h2><ol className="learning-road">{UNITS.map(u=><li key={u.id}><span className="step-n">{u.n}</span><div><h3><a href={href('workspace',u.id)}>{u.name} →</a></h3><p>{u.question}</p><small>Output: {u.output}{w.outputs[u.id]?.text.trim()?' · draft started':''}</small></div></li>)}</ol><section><h2>Questions to investigate as you plan</h2><div className="tool-paths"><a className="tool-path" href={href('workspace','contextualise')}><h3>Map the people</h3><p>Who uses the service, does the work, controls assets, decides or is excluded? Record who needs to be consulted.</p></a><a className="tool-path" href={href('personal')}><h3>Identify the skills</h3><p>Who can install, operate, maintain and organise the service? Identify capacity already present and learning still needed.</p></a><a className="tool-path" href={href('workspace','fund')}><h3>Investigate resources and schemes</h3><p>Record preparation and running costs, potential support, eligibility questions and who will verify them. A possible scheme is not secured funding.</p></a><a className="tool-path" href={href('visualise')}><h3>Understand the proposed system</h3><p>Use the illustrations to understand the system’s components and operating needs. Record what still needs a local or technical assessment.</p></a></div></section><details className="learning-resources"><summary>Framework guidance and project directory</summary><p><a href={href('framework')}>Open the full framework →</a></p><p><a href="pipeline/index.html">Open the project directory and draft workspace →</a></p><p className="fine">The directory is a demonstration. Drafts and support offers stay in your browser and are not sent to partners.</p></details></>;
 }

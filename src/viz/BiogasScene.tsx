@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next';
-import { ProcessFlow, ProcessMarker } from './parts';
+import { ProcessFlow } from './parts';
 
 /** Fixed-dome conceptual section. Pipe endpoints below the slurry level preserve the gas seal. */
-export default function BiogasScene({ stage, label, mode = 'store' }: { stage: number; label: string; mode?: 'store'|'use'|'feed' }) {
+export default function BiogasScene({ stage, label, mode = 'store', selected }: { stage: number; label: string; mode?: 'store'|'use'|'feed'; selected?: number }) {
   const { t } = useTranslation();
   const active = stage >= 4;
   const liquid = mode === 'store' ? 300 : 282;
@@ -21,13 +21,13 @@ export default function BiogasScene({ stage, label, mode = 'store' }: { stage: n
       <path d="M86 187H176V213H86Z" fill="#9b8667"/>
       <path d="M299 340V289C299 174 529 174 529 289V340Q414 452 299 340Z" fill="url(#masonry)" stroke="#5b6e63" strokeWidth="3"/>
       <path d="M312 334V289C312 194 516 194 516 289V334Q414 430 312 334Z" fill="#e6d8a8"/>
-      <path d={`M312 ${liquid}H516V334Q414 430 312 334Z`} fill="#938166"/>
-      <path d={`M312 ${liquid}H516`} stroke="#715d44" strokeWidth="2"/>
+      <path d="M312 334H516Q414 430 312 334Z" fill="#938166"/><rect className="liquid-level" x="312" y={liquid} width="204" height={334-liquid} fill="#938166"/>
+
       <rect x="395" y="179" width="38" height="24" fill="#c4bcae" stroke="#5b6e63" strokeWidth="3"/>
       <ProcessFlow kind="input" d="M176 208H215L320 327" color="#8a6543" active={active && mode === 'feed'}/>
       {/* Outlet is connected below slurry surface; compensation chamber is open. */}
       <path d="M620 229V358H726V229" fill="#d4cec0" stroke="#67776e" strokeWidth="4"/>
-      <path d={`M628 ${chamber}H718V350H628Z`} fill="#938166"/>
+      <rect className="liquid-level" x="628" y={chamber} width="90" height={350-chamber} fill="#938166"/>
       <ProcessFlow kind="output" d={mode === 'use' ? "M635 330H506" : "M506 330H635"} color="#507b59" active={active}/>
       <ProcessFlow kind="output" d="M718 250H761V348H799" color="#507b59" active={active && mode === 'feed'}/>
       <path d="M785 315V390H912V315" fill="#d4cec0" stroke="#67776e" strokeWidth="4"/>
@@ -41,6 +41,7 @@ export default function BiogasScene({ stage, label, mode = 'store' }: { stage: n
       {active && mode === 'use' && <path className="gas-flame" d="M831 158Q823 149 837 132Q833 148 844 145Q853 153 843 158Z" fill="#367ba0"/>}
       {active && mode !== 'feed' && <g className="digester-bubbles" fill="#d9c89e"><circle cx="359" cy="310" r="3"/><circle cx="403" cy="335" r="4"/><circle cx="471" cy="308" r="3"/></g>}
     </g>
+    {selected !== undefined && <g className="component-selection" aria-hidden="true">{[[70,154,123,75],[292,183,244,215],[793,129,91,57],[613,221,121,145],[778,308,142,90]].filter((_,i)=>i===selected).map(b=><rect key={selected} x={b[0]} y={b[1]} width={b[2]} height={b[3]} rx="9"/>)}</g>}
     <g className="diagram-label" textAnchor="middle">
       <text x="131" y="136">{name('mixing')}</text>
       <text x="414" y="255">{name('gas')}</text>
@@ -51,9 +52,6 @@ export default function BiogasScene({ stage, label, mode = 'store' }: { stage: n
       <text x="514" y="85">{name('valve')}</text>
       <text x="618" y="187">{name('trap')}</text>
     </g>
-    <ProcessMarker x={221} y={254} number={1} color="#8a6543"/>
-    <ProcessMarker x={710} y={114} number={2} color="#b17b25"/>
-    <ProcessMarker x={570} y={330} number={3} color="#507b59"/>
     <text x="26" y="468" className="diagram-small">{t('engineering.section')}</text>
   </svg>;
 }

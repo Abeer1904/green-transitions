@@ -19,6 +19,17 @@ const PENDING_TRANSLATION = new Set(['biogas-08','biogas-09','biogas-10','water-
 const pending = [];
 const bad = m => problems.push(m);
 
+// Guided pathway must retain valid references and answer definitions.
+const { FOUNDATION } = await load('src/content/foundation.ts');
+assert.equal(FOUNDATION.length, 6);
+assert.equal(new Set(FOUNDATION.map(s => s.id)).size, FOUNDATION.length);
+for (const step of FOUNDATION) {
+  assert.ok(readingIds.has(step.source), `Foundation ${step.id}: missing source`);
+  assert.ok(step.answers.length > 0 && step.answers.every(i => Number.isInteger(i) && i >= 0 && i < step.options.length), `Foundation ${step.id}: invalid answers`);
+  assert.equal(new Set(step.answers).size, step.answers.length);
+  assert.equal(new Set(step.fields.map(([id]) => id)).size, step.fields.length);
+}
+
 for (const r of READINGS) if (!trackIds.has(r.track)) bad(`reading ${r.id}: unknown track ${r.track}`);
 for (const s of SKILLS) { if (!trackIds.has(s.track)) bad(`skill ${s.id}: unknown track`); if (s.readingId && !readingIds.has(s.readingId)) bad(`skill ${s.id}: missing reading ${s.readingId}`); }
 

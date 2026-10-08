@@ -2,16 +2,29 @@
 
 A learning site for villages thinking about an energy transition, with a focus on the **skills** that make it work. Content is adapted from the *Renewable Energy and Green Skills Directory for Mapping Renewable Energy Possibilities in Rural Haryana* (13 pages).
 
-Each track (biogas, solar, and later water, gasification, regenerative agriculture) follows the same six steps:
+## Website structure
 
-| Step | What it is | Where it lives |
-|---|---|---|
-| Read | Short readings, stories, scripts | `content/readings/*.md` |
-| See | The 0→1 view: an animated village scene plus stage-by-stage skills, questions and warnings, with a "try the numbers" tool | `src/content/journeys.ts`, `src/viz/` |
-| Try | Decision-tree scenarios (project decisions and skills choices) | `src/content/scenarios.ts` |
-| Check | Quizzes with reasons (multiple choice and matching) | `src/content/quizzes.ts` |
-| Skills | The skills directory: what a role does, where to train, who can join | `src/content/skills.ts` |
-| Plan | "Our pathway": group questions and notes for each step, printable | generated from the journey |
+- **Home:** Navapur as the introduction, with direct entry into Gram Urja for returning visitors.
+- **Navapur:** the original Civic Games Lab story and workshop at `games/navapur/index.html`, followed by optional reflection at `#/reflection`. Workshop notes save separately from project evidence in the browser workspace.
+- **Gram Urja:** a practical hub at `#/gram-urja` connecting systems, courses, skills and local projects.
+- **Framework:** Filter → Contextualise → Prioritise → Solutioning → Fund → Implement.
+- **Learn:** the expanded course catalogue, plus six linked tasks in the fictional Neemgaon case at `#/learn/path`, with understanding checks and saved, self-reviewed outputs.
+- **Visualise:** activity filters for irrigation and cooking/organic waste, interactive system sections, and investigation prompts on emissions, gender, access and impacts.
+- **Play:** decision scenarios and practice.
+- **Projects:** an overview of draft preparation across the six stages, connected to people, skills, resources and existing worksheets.
+- **Personal pathway:** role selection, practice evidence and a CV draft at `#/personal`.
+
+The 0→1 map describes service readiness, not a one-year course. Fictional lesson outputs remain separate from real project evidence and assessed practical competence.
+
+## Illustration behaviour
+
+SVG diagrams are maintained in `src/viz/`. Moving markers show flow direction, not measured rates. Arrowheads remain readable with motion paused. Solar separates electrical power, pumping and gravity delivery. Biogas shows qualitative gas-storage, gas-use and feeding states; it is not a construction or pressure model. References are available on each diagram page.
+
+Use the pause control for still inspection. Reduced-motion preferences disable motion automatically. On narrow screens the drawing scrolls horizontally within its panel to preserve label size. Component controls remain outside the drawing.
+
+## Before public release
+
+The new foundation pathway and several newer pages are English-only; Hindi translations and terminology still need review. Technical drawings are educational schematics, not validated installation designs. Test learning tasks with intended learners and facilitators before treating completion as evidence of competence.
 
 ## Run
 
@@ -109,3 +122,7 @@ The course text is English only for now. Hindi for the research readings and the
 - Maps use readiness stages rather than day ranges. Original directory reading IDs are retained so links and saved progress continue to work.
 - New workspace state uses `gram-urja:workspace:v1`; existing learning state and pipeline state retain their own keys. Everything remains browser-local. Export creates a JSON backup; automatic restore/import is not implemented.
 - New pathway interface text remains English, with a notice in Hindi mode. Field review and local-language review remain necessary; see `FIELD-REVIEW.md`.
+
+## Navapur integration
+
+The workshop is a local snapshot of the original Navapur experience. Story content, artwork and workshop controls are preserved. The integrated copy adds a return link and a closing link into Gram Urja; edits here do not change the separate source project. Keep `public/games/navapur/` together when updating it. New integration pages are currently English-only.
