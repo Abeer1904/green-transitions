@@ -2,7 +2,7 @@
  *  Every claim carries an evidence tag: [[reading-id|label]] links to the paper's brief in the sources library.
  *  English only for now. */
 import type { Card } from './framework';
-import { BIOGAS_COURSE, SOLAR_COURSE, WATER_RAIN_LESSON, EVIDENCE_CAPSTONE } from './courses-practical';
+import { BIOGAS_COURSE, SOLAR_COURSE, RAIN_COURSE, REGEN_COURSE, EVIDENCE_CAPSTONE } from './courses-practical';
 
 export type CourseLesson = {
   id: string;
@@ -193,7 +193,9 @@ const ORDER: CourseDef[] = [
   { ...pick('evidence'), lessons: [...pick('evidence').lessons, EVIDENCE_CAPSTONE] },
   BIOGAS_COURSE,
   SOLAR_COURSE,
-  { ...pick('water'), lessons: [WATER_RAIN_LESSON, ...pick('water').lessons] },
+  RAIN_COURSE,
+  REGEN_COURSE,
+  pick('water'),
   pick('uptake'),
   pick('skills'),
   pick('health'),

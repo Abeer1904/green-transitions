@@ -21,18 +21,18 @@ function Hub() {
       <p className="crumbs"><a href={href()}>Home</a> / Learn</p>
       <p className="eyebrow">Learn · green skills pathway</p>
       <h1>Courses</h1>
-      <p className="lead">Seven courses built from the research and the practical guides: evidence, biogas, solar, water, uptake, skills and health. Each lesson is a few minutes and ends with a question or a group exercise. Every claim carries a tag that opens the source.</p>
-      <p>{next && <a className="btn btn-big" href={href('learn', courseOf(next.id)!.id, next.id)}>{done ? 'Continue' : 'Start'}: {next.title} →</a>} <span className="meta">{done} of {ALL.length} lessons done</span></p>
+      <p className="lead">Nine courses built from the research and the practical guides: evidence, biogas, solar, rain capture, regenerative farming, water, uptake, skills and health. Each lesson is a few minutes and ends with a question or a group exercise. Every claim carries a tag that opens the source.</p>
+      <p>{done > 0 && next ? <a className="btn btn-big" href={href('learn', courseOf(next.id)!.id, next.id)}>Continue: {next.title} →</a> : <a className="btn btn-big" href={href('learn', 'path')}>Start with the guided foundation →</a>} <span className="meta">{done} of {ALL.length} course lessons done</span></p>
       <div className="lc-list">
         <a className="lc-card" href={href('learn', 'path')}>
           <span className="step-n">▶</span>
-          <div><h2>Start here: a guided foundation</h2><p>Follow one fictional village, Neemgaon, from a water problem to a reasoned plan. About an hour, six steps, with outputs you keep.</p></div>
+          <div><h2>Guided foundation: a village decides</h2><p>Follow one fictional village, Navapur, from a water problem to a reasoned plan. About an hour, six steps, with outputs you keep.</p></div>
         </a>
         {COURSES.map(c => {
           const d = c.lessons.filter(l => p.lessons.includes(l.id)).length;
           return (
             <a key={c.id} className="lc-card" href={href('learn', c.id)}>
-              <span className="step-n">{c.n}</span>
+              <span className="step-n">{c.n + 1}</span>
               <div><h2>{c.title}</h2><p>{c.question}</p><p className="meta">{c.lessons.length} lessons · {c.lessons.reduce((s, l) => s + l.minutes, 0)} min{d ? ` · ${d} done` : ''}</p></div>
             </a>
           );
@@ -49,7 +49,7 @@ function Hub() {
       </div>
       <h2 className="section-title">Sources library</h2>
       <p className="meta">The full brief for each paper, with its method, strength of evidence and limits.</p>
-      <ul className="lc-sources">{sources.map(id => <li key={id}><a href={href('read', id)}>{readingById(id)!.title}</a></li>)}</ul>
+      <ul className="lc-sources">{sources.map(id => { const t = readingById(id)!.title; const dup = sources.filter(o => readingById(o)!.title === t).length > 1; const tech = id.split('-')[0]; return <li key={id}><a href={href('read', id)}>{dup ? `${tech[0].toUpperCase()}${tech.slice(1)}: ` : ''}{t}</a></li>; })}</ul>
     </div>
   );
 }
@@ -62,7 +62,7 @@ function CoursePage({ id }: { id: string }) {
   return (
     <div className="hue-green">
       <p className="crumbs"><a href={href()}>Home</a> / <a href={href('learn')}>Learn</a> / {c.title}</p>
-      <p className="eyebrow">Course {c.n}</p>
+      <p className="eyebrow">Course {c.n + 1} of {COURSES.length}</p>
       <h1>{c.title}</h1>
       <p className="lead">{c.question}</p>
       <p>{c.blurb}</p>

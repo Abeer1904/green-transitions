@@ -8,7 +8,7 @@ A learning site for villages thinking about an energy transition, with a focus o
 - **Navapur:** the original Civic Games Lab story and workshop at `games/navapur/index.html`, followed by optional reflection at `#/reflection`. Workshop notes save separately from project evidence in the browser workspace.
 - **Gram Urja:** a practical hub at `#/gram-urja` connecting systems, courses, skills and local projects.
 - **Framework:** Filter → Contextualise → Prioritise → Solutioning → Fund → Implement.
-- **Learn:** the expanded course catalogue, plus six linked tasks in the fictional Neemgaon case at `#/learn/path`, with understanding checks and saved, self-reviewed outputs.
+- **Learn:** the expanded course catalogue, plus six linked tasks in the fictional Navapur case at `#/learn/path`, with understanding checks and saved, self-reviewed outputs.
 - **Visualise:** activity filters for irrigation and cooking/organic waste, interactive system sections, and investigation prompts on emissions, gender, access and impacts.
 - **Play:** decision scenarios and practice.
 - **Projects:** an overview of draft preparation across the six stages, connected to people, skills, resources and existing worksheets.

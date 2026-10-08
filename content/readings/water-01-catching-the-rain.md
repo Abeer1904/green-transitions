@@ -4,14 +4,14 @@ track: water
 kind: reading
 order: 1
 minutes: 4
-title: Catching the rain (preview)
-summary: How rainwater harvesting and watershed work fit a village, and the skills they need. This track is still being written.
+title: Catching the rain
+summary: What rainwater harvesting and watershed management are, the three levels they work at, and the skills they need.
 source: Directory p.12–13
 ---
 
 :::note
-Preview
-The directory has only a short section on water so far. Nothing here yet covers costs, set-up steps or a Day 1–365 path. Those will be added.
+The overview
+This reading sets out what the work is and who does it. Set-up steps, costs, a worked example, stories from Haryana and a year plan are in the readings that follow.
 :::
 
 ## What is it?

@@ -15,7 +15,7 @@ const skillIds = new Set(SKILLS.map(s => s.id));
 const trackIds = new Set(TRACKS.map(t => t.id));
 let problems = [];
 // Research readings added in English first. Hindi falls back to English until translated; remove an id here when its Hindi file is added.
-const PENDING_TRANSLATION = new Set(['biogas-08','biogas-09','biogas-10','water-02','regen-01','solar-07a','solar-08','solar-09','solar-10','solar-11','solar-12','solar-13']);
+const PENDING_TRANSLATION = new Set(['biogas-08','biogas-09','biogas-10','water-02','water-03','water-04','water-05','water-06','water-07','regen-01','regen-02','regen-03','solar-07a','solar-08','solar-09','solar-10','solar-11','solar-12','solar-13']);
 const pending = [];
 const bad = m => problems.push(m);
 

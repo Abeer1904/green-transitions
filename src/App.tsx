@@ -7,7 +7,6 @@ import { href, useRoute } from './router';
 import Home from './pages/Home';
 import Navapur from './pages/Navapur';
 import Visioning from './pages/Visioning';
-import GramUrja from './pages/GramUrja';
 import Personal from './pages/Personal';
 import Workspace from './pages/Workspace';
 import Practice from './pages/Practice';
@@ -33,7 +32,7 @@ function Page({ parts }: { parts: string[] }) {
     case 'visioning': return <Visioning />;
     case 'navapur': return <Navapur />;
     case 'reflection': return <Navapur reflection />;
-    case 'gram-urja': return <GramUrja />;
+    case 'gram-urja': return <Home />;
     case 'library': return <Library />;
     case 'learn': return <Learn parts={parts.slice(1)} />;
     case 'visualise': return <Visualise parts={parts.slice(1)} />;
@@ -68,8 +67,7 @@ export default function App() {
       <header className="top no-print">
         <a className="brand" href={href()}><svg viewBox="0 0 32 32" width="32" height="32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#2f5d3a" /><circle cx="10" cy="11" r="4" fill="#f2b632" /><path d="M6 25 q10 -14 20 0z" fill="#eaf0df" /></svg><span>{t('brand')}</span></a>
         <nav aria-label={t('nav.main')}>
-          <a href={href('navapur')} aria-current={['visioning','navapur','reflection'].includes(parts[0]) ? 'page' : undefined}>Navapur</a>
-          <a href={href('gram-urja')} aria-current={parts[0] === 'gram-urja' ? 'page' : undefined}>Gram Urja</a>
+          <a href={href()} aria-current={parts.length === 0 || ['visioning','navapur','reflection','gram-urja'].includes(parts[0]) ? 'page' : undefined}>Start</a>
           <a href={href('framework')} aria-current={active === 'framework' ? 'page' : undefined}>Framework</a>
           <a href={href('learn')} aria-current={['learn','course','skills','personal','practice','library','track','see','read','check','pathway'].includes(parts[0]) ? 'page' : undefined}>Learn</a>
           <a href={href('visualise')} aria-current={parts[0] === 'visualise' ? 'page' : undefined}>Visualise</a>
