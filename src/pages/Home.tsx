@@ -29,7 +29,7 @@ export default function Home() {
         <p className="eyebrow">01 · Start with a story</p>
         <h2 id="h-navapur">Enter Navapur, a story and integrated workshop</h2>
         <p>Meet the residents of a changing town. Together, name the problems, compare solutions and rethink your choices when an unexpected event changes the situation. A facilitator guides the group; bring pens and paper.</p>
-        <a className="btn" href="games/navapur/index.html">Enter the story and workshop →</a>
+        <a className="btn" href={href('workshop')}>Enter the story and workshop →</a>
         <a className="opening-skip" href={href('navapur')}>How the workshop runs, and the reflection →</a>
       </div>
     </section>

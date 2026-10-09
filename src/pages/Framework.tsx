@@ -96,7 +96,7 @@ function PathScreen() {
       })}
       <p className="fw-loop"><span aria-hidden="true">↻</span> Implement hands its learning record back to Filter. The next problem starts the next round.</p>
       <p className="fine"><a href={href('framework', 'glossary')}>Glossary of terms used in the pathway →</a></p>
-      <p className="fine">Written from the Filter to Implement working draft. Figures and examples are illustrative until checked locally. Project ideas from this pathway can be written up and offered to partners in the <a href="pipeline/index.html">Green Gram project pipeline</a>.</p>
+      <p className="fine">Written from the Filter to Implement working draft. Figures and examples are illustrative until checked locally. Project ideas from this pathway can be written up and offered to partners in the <a href={href('pipeline')}>Green Gram project pipeline</a>.</p>
     </div>
   );
 }
@@ -173,7 +173,7 @@ function LessonPlayer({ l }: { l: Lesson }) {
       <h1>{l.checkpoint ? 'Checkpoint complete' : 'Lesson complete'}</h1>
       <p className="lead">{l.title}</p>
       {l.readings && l.readings.length > 0 && <div className="box box-note"><strong className="box-title">Go deeper</strong><ul>{l.readings.map(r => readingById(r) && <li key={r}><a href={href('read', r)}>{readingById(r)!.title}</a></li>)}</ul></div>}
-      {l.checkpoint && <div className="box box-ask"><a className="btn" href={href('workspace',u.id)}>Write this stage’s output →</a><strong className="box-title">Unit output</strong>{u.output}. When the mandate is written, ideas that pass to preparation can be written up in the <a href="pipeline/index.html">Green Gram project pipeline</a>.</div>}
+      {l.checkpoint && <div className="box box-ask"><a className="btn" href={href('workspace',u.id)}>Write this stage’s output →</a><strong className="box-title">Unit output</strong>{u.output}. When the mandate is written, ideas that pass to preparation can be written up in the <a href={href('pipeline')}>Green Gram project pipeline</a>.</div>}
       <div className="pager">
         <a className="btn btn-ghost" href={href('framework')}>← The pathway</a>
         {next && next.unit === l.unit ? <a className="btn" href={href('framework', 'lesson', next.id)}>Next lesson: {next.title} →</a> : <a className="btn" href={href('framework')}>{l.checkpoint ? `${u.name} finished. Back to the pathway` : 'Back to the pathway'} →</a>}
@@ -213,7 +213,7 @@ function StagePage({ id }: { id: string }) {
   if (!u || !st) return <NotFound />;
   const prev = UNITS[u.n - 2], next = UNITS[u.n];
   const ls = lessonsIn(u.id);
-  const to = (t: string) => t === '@skills' ? href('skills') : t === '@pipeline' ? 'pipeline/index.html' : href('framework', ...t.split('/'));
+  const to = (t: string) => t === '@skills' ? href('skills') : t === '@pipeline' ? href('pipeline') : href('framework', ...t.split('/'));
   return (
     <article className="hue-green fw-stage">
       <p className="crumbs"><a href={href()}>Home</a> / <a href={href('framework')}>Framework</a> / {u.name}</p>

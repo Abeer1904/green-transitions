@@ -5,6 +5,7 @@ import { useLocalizer } from './content/localize';
 import { LANGUAGES } from './i18n';
 import { href, useRoute } from './router';
 import Home from './pages/Home';
+import Experience from './pages/Experience';
 import Navapur from './pages/Navapur';
 import Visioning from './pages/Visioning';
 import Personal from './pages/Personal';
@@ -22,6 +23,7 @@ import Framework from './pages/Framework';
 import Library from './pages/Library';
 import Learn from './pages/Learn';
 import Play from './pages/Play';
+import DayGame from './pages/DayGame';
 import Projects from './pages/Projects';
 import Visualise from './pages/Visualise';
 
@@ -30,6 +32,8 @@ function Page({ parts }: { parts: string[] }) {
   switch (a) {
     case undefined: return <Home />;
     case 'visioning': return <Visioning />;
+    case 'pipeline': return <Experience kind="pipeline" parts={parts.slice(1)} />;
+    case 'workshop': return <Experience kind="workshop" parts={parts.slice(1)} />;
     case 'navapur': return <Navapur />;
     case 'reflection': return <Navapur reflection />;
     case 'gram-urja': return <Home />;
@@ -37,6 +41,7 @@ function Page({ parts }: { parts: string[] }) {
     case 'learn': return <Learn parts={parts.slice(1)} />;
     case 'visualise': return <Visualise parts={parts.slice(1)} />;
     case 'play': return <Play />;
+    case 'day': return <DayGame />;
     case 'projects': return <Projects />;
     case 'track': return b ? <Track id={b} /> : <NotFound />;
     case 'read': return b ? <ReadingPage id={b} /> : <NotFound />;
@@ -67,18 +72,18 @@ export default function App() {
       <header className="top no-print">
         <a className="brand" href={href()}><svg viewBox="0 0 32 32" width="32" height="32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#2f5d3a" /><circle cx="10" cy="11" r="4" fill="#f2b632" /><path d="M6 25 q10 -14 20 0z" fill="#eaf0df" /></svg><span>{t('brand')}</span></a>
         <nav aria-label={t('nav.main')}>
-          <a href={href()} aria-current={parts.length === 0 || ['visioning','navapur','reflection','gram-urja'].includes(parts[0]) ? 'page' : undefined}>Start</a>
+          <a href={href()} aria-current={parts.length === 0 || ['visioning','navapur','workshop','reflection','gram-urja'].includes(parts[0]) ? 'page' : undefined}>Start</a>
           <a href={href('framework')} aria-current={active === 'framework' ? 'page' : undefined}>Framework</a>
           <a href={href('learn')} aria-current={['learn','course','skills','personal','practice','library','track','see','read','check','pathway'].includes(parts[0]) ? 'page' : undefined}>Learn</a>
           <a href={href('visualise')} aria-current={parts[0] === 'visualise' ? 'page' : undefined}>Visualise</a>
-          <a href={href('play')} aria-current={['play','try'].includes(parts[0]) ? 'page' : undefined}>Play</a>
-          <a href={href('projects')} aria-current={['projects','workspace'].includes(parts[0]) ? 'page' : undefined}>Projects</a>
+          <a href={href('play')} aria-current={['play','try','day'].includes(parts[0]) ? 'page' : undefined}>Play</a>
+          <a href={href('projects')} aria-current={['projects','workspace','pipeline'].includes(parts[0]) ? 'page' : undefined}>Projects</a>
         </nav>
         <div className="lang" role="group" aria-label={t('language')}>
           {LANGUAGES.map(l => <button key={l.code} lang={l.code} className={i18n.resolvedLanguage === l.code ? 'pill on' : 'pill'} aria-pressed={i18n.resolvedLanguage === l.code} onClick={() => i18n.changeLanguage(l.code)}>{l.label}</button>)}
         </div>
       </header>
-      <main id="main" tabIndex={-1}>{i18n.resolvedLanguage === 'hi' && ['visioning','navapur','reflection','gram-urja','personal','workspace','practice','framework','course','learn','play','projects','library','visualise'].includes(parts[0]) && <p className="hint" lang="hi">यह नया भाग अभी अंग्रेज़ी में है। हिन्दी अनुवाद की समीक्षा बाकी है।</p>}<Page parts={parts} /></main>
+      <main id="main" tabIndex={-1}>{i18n.resolvedLanguage === 'hi' && ['visioning','navapur','workshop','reflection','gram-urja','personal','workspace','practice','framework','course','learn','play','day','projects','library','visualise'].includes(parts[0]) && <p className="hint" lang="hi">यह नया भाग अभी अंग्रेज़ी में है। हिन्दी अनुवाद की समीक्षा बाकी है।</p>}<Page parts={parts} /></main>
       <footer className="foot no-print"><p>{t('footer')}</p><p>{t('supportAcknowledgement')}</p></footer>
     </>
   );

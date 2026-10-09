@@ -1,3 +1,4 @@
+import IllustratedSystem from '../viz/IllustratedSystem';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import SolarScene from '../viz/SolarScene';
@@ -41,7 +42,7 @@ function Hub() {
       <div className="place-switch" role="group" aria-label="Activity">{[['all','All available systems'],['solar','Irrigation'],['biogas','Cooking & organic waste'],['water','Rain & recharge']].map(([id,name])=><button className="pill" key={id} aria-pressed={activity===id} onClick={()=>setActivity(id)}>{name}</button>)}</div><div className="visual-atlas">
         {LIVE.filter(t=>activity==='all'||activity===t.id).map(t => (
           <a key={t.id} className="atlas-entry" href={href('visualise', t.id)}>
-            <div className="atlas-preview scene-paused" aria-hidden="true">{t.id === 'solar' ? <SolarScene stage={5} label={t.name}/> : t.id === 'water' ? <WaterScene stage={5} label={t.name}/> : <BiogasScene stage={5} label={t.name}/>}</div>
+            <div className="atlas-preview"><img className="atlas-art" loading="lazy" src={`illustrations/${t.id}.png`} alt={`Illustrated ${t.name.toLowerCase()} installation`}/></div>
             <div className="atlas-caption"><p className="eyebrow">Interactive system · {t.id === 'solar' ? '01' : t.id === 'biogas' ? '02' : '03'}</p><h2>{t.name}</h2><p>{t.line}</p><span>Explore the system →</span></div>
           </a>
         ))}
@@ -65,6 +66,7 @@ function Detail({ tech }: { tech: Tech }) {
   const [stageKey, setStageKey] = useState<(typeof STAGES)[number]['key']>('run');
   const [focus, setFocus] = useState('all');
   const [paused, setPaused] = useState(false);
+  const [view,setView]=useState<'illustration'|'process'>('illustration');
   const [showComponents, setShowComponents] = useState(false);
   const stage = STAGES.find(s => s.key === stageKey)!.stage;
   const label = t(`engineering.${id}.title`);
@@ -75,7 +77,9 @@ function Detail({ tech }: { tech: Tech }) {
       <p className="eyebrow">Visualise</p>
       <h1>{tech.name}</h1>
       <p className="lead">{tech.reads}</p>
-      <div className="stage-card">
+      <div className="place-switch" role="group" aria-label="Visualisation view"><button className="pill" aria-pressed={view==='illustration'} onClick={()=>setView('illustration')}>In the landscape</button><button className="pill" aria-pressed={view==='process'} onClick={()=>setView('process')}>How it works · animated diagram</button></div>
+      {view==='illustration' && <IllustratedSystem id={id}/>}
+      <div className="stage-card" hidden={view!=='process'}>
         <div className="scene-tools">
           <div role="group" aria-label="Stage" className="viz-stages">
             {STAGES.map(s => <button key={s.key} className="pill" aria-pressed={stageKey === s.key} onClick={() => { setStageKey(s.key); setFocus('all'); }}>{s.label}</button>)}

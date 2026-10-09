@@ -2,6 +2,20 @@
 
 A learning site for villages thinking about an energy transition, with a focus on the **skills** that make it work. Content is adapted from the *Renewable Energy and Green Skills Directory for Mapping Renewable Energy Possibilities in Rural Haryana* (13 pages).
 
+## One project, one build
+
+Run all experiences from the repository root with `npm run dev`. Deploy the complete `dist/` directory after `npm run build`.
+
+- `src/`: the shared React shell, learning pages, worksheets, visualisations and integrations.
+- `content/` and `locales/`: readings and translations, bundled into the learning app.
+- `public/games/navapur/`: the original workshop, integrated at `#/workshop`.
+- `public/pipeline/`: the project directory, saved projects and draft editor, integrated at `#/pipeline`.
+- `public/illustrations/`: shared system illustrations.
+- `docs/` and the Markdown review/workshop notes: maintainer and facilitator documentation.
+- `dist/`: generated deployment output; edit source files and rebuild.
+
+Navapur and the pipeline run in same-origin frames inside the shared navigation so their original styles and controls remain intact. Their standalone URLs remain available for full-window use. Pipeline routes are reflected in the outer URL for sharing. Worksheet-to-draft transfer uses the existing browser storage keys, so existing notes, drafts and saved projects are preserved when served on the same origin. Run through the local server rather than opening files directly to keep browser storage shared.
+
 ## Website structure
 
 - **Home:** Navapur as the introduction, with direct entry into Gram Urja for returning visitors.
@@ -33,6 +47,7 @@ npm install
 npm run dev      # builds, then serves dist/ at http://127.0.0.1:3013
 npm test         # checks that every scenario branch, quiz answer and cross-link resolves
 npm run build    # generate readings, type-check, bundle into dist/
+npm run test:integration # rebuild and verify all public assets and integrated links
 ```
 
 Progress and pathway notes are kept in the browser (`localStorage`). Nothing is sent anywhere. The site is static and works offline after one visit (`dist/sw.js`).
@@ -126,3 +141,28 @@ The course text is English only for now. Hindi for the research readings and the
 ## Navapur integration
 
 The workshop is a local snapshot of the original Navapur experience. Story content, artwork and workshop controls are preserved. The integrated copy adds a return link and a closing link into Gram Urja; edits here do not change the separate source project. Keep `public/games/navapur/` together when updating it. New integration pages are currently English-only.
+
+## GitHub Pages deployment
+
+The workflow in `.github/workflows/pages.yml` installs dependencies, checks content,
+checks the complete build, and deploys `dist/` on pushes to `main`. It can also be
+run manually from the Actions tab.
+
+1. Push this project, including `.github/workflows/pages.yml`, to a GitHub repository.
+2. In the repository's **Settings → Pages → Build and deployment**, select
+   **GitHub Actions** as the source.
+3. Push to `main` or run **Deploy GitHub Pages** from the Actions tab.
+4. Open the URL shown by the deployment, normally
+   `https://USERNAME.github.io/REPOSITORY/`.
+
+If your deployment branch differs, update the workflow's `branches` setting.
+No repository name or base-path environment variable is needed: assets and service
+worker registration use relative URLs, and offline caches are scoped to the site's
+URL. The same build also works at a domain root or on a custom domain. Keep the
+complete build together; do not publish only `dist/index.html`. The workflow builds
+from source, so editing generated files in `dist/` will not change the deployment.
+
+Use `#/...` links for app pages. No server-side routing or rewrite is required.
+Core learning pages are cached at installation; workshop/pipeline pages and images
+are cached when visited. Saved drafts remain browser-local and are not uploaded to
+GitHub. Notes saved on localhost will not automatically appear on the published domain.

@@ -16,7 +16,7 @@ export default function Play() {
       <p className="eyebrow">Play · the capacity-building tool</p>
       <h1>Practise the decision before you make it</h1>
       <p className="lead">Scenarios are how people build the skills the framework asks for. A group takes roles, meets a real constraint and decides together, before any money or land is committed. They run through every stage, from Filter to Implement.</p>
-      <section className="learning-case"><h2>Navapur: a group workshop</h2><p>A facilitated story and workshop: people, peak, problems, solutions and an unexpected change.</p><a className="btn" href={href('navapur')}>How the workshop runs →</a></section><h2 className="section-title">Practise a specific decision</h2>
+      <section className="learning-case"><h2>A day in Navapur: a five-minute game</h2><p>Build a sequence: a woman, cooking, LPG. Pick who, what they do and the energy source, then follow it to what it uses and what it does to health and the environment.</p><a className="btn" href={href('day')}>Build your day →</a></section><section className="learning-case"><h2>Navapur: a group workshop</h2><p>A facilitated story and workshop: people, peak, problems, solutions and an unexpected change.</p><a className="btn" href={href('navapur')}>How the workshop runs →</a></section><h2 className="section-title">Practise a specific decision</h2>
       <div className="lc-list">
         {SCENARIOS.map(s => (
           <a key={s.id} className="lc-card" href={href('try', s.id)}>

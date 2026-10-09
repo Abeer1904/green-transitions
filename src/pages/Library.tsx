@@ -41,7 +41,7 @@ export default function Library() {
         <div>
           <h2>{t('home.pipelineTitle')}</h2>
           <p>{t('home.pipelineText')}</p>
-          <a className="btn" href="pipeline/index.html">{t('home.pipelineCta')}</a>
+          <a className="btn" href={href('pipeline')}>{t('home.pipelineCta')}</a>
         </div>
       </section>
 

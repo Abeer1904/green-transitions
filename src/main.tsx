@@ -7,5 +7,5 @@ createRoot(document.getElementById('root')!).render(<App />);
 
 // Offline support: lets a village keep using the site after one visit on a weak connection.
 if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1')) {
-  navigator.serviceWorker.register('/sw.js').catch(() => { /* optional */ });
+  navigator.serviceWorker.register(new URL('./sw.js', document.baseURI).href).catch(() => { /* optional */ });
 }

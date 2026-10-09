@@ -30,6 +30,8 @@ for (const step of FOUNDATION) {
   assert.equal(new Set(step.fields.map(([id]) => id)).size, step.fields.length);
 }
 
+const { ACTIVITIES } = await load('src/content/dayGame.ts');
+for (const a of ACTIVITIES) { if (a.sources.length < 2) bad(`day game ${a.id}: needs two or more sources`); for (const s of a.sources) for (const k of ['use', 'health', 'env']) { const l = s[k]; if (!l.text || /\u2014/.test(l.text)) bad(`day game ${a.id}/${s.id}/${k}: empty or em dash`); if (l.tag ? !readingIds.has(l.tag.id) : !l.check) bad(`day game ${a.id}/${s.id}/${k}: needs a valid tag or check:true`); } }
 for (const r of READINGS) if (!trackIds.has(r.track)) bad(`reading ${r.id}: unknown track ${r.track}`);
 for (const s of SKILLS) { if (!trackIds.has(s.track)) bad(`skill ${s.id}: unknown track`); if (s.readingId && !readingIds.has(s.readingId)) bad(`skill ${s.id}: missing reading ${s.readingId}`); }
 
