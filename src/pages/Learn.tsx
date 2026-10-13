@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Foundation from './Foundation';
+import Curriculum from './Curriculum';
 import { COURSES, courseById, courseOf, type CourseLesson } from '../content/courses';
 import { UNITS } from '../content/framework';
 import { readingById } from '../content';
@@ -20,7 +21,11 @@ function Hub() {
     <div className="hue-green">
       <p className="crumbs"><a href={href()}>Home</a> / Learn</p>
       <p className="eyebrow">Learn · green skills pathway</p>
-      <h1>Courses</h1>
+      <h1>Learn and build your skills</h1>
+      <p className="lead">Start with a common foundation, choose a role and turn practice into a portfolio.</p>
+      <p><a className="btn btn-big" href={href('learn', 'curriculum')}>Start the green skills pathway →</a></p>
+      <p className="meta">Four foundation modules · solar pump operator pathway · saved work samples</p>
+      <h2 className="section-title">Explore the research and practical courses</h2>
       <p className="lead">Nine courses built from the research and the practical guides: evidence, biogas, solar, rain capture, regenerative farming, water, uptake, skills and health. Each lesson is a few minutes and ends with a question or a group exercise. Every claim carries a tag that opens the source.</p>
       <p>{done > 0 && next ? <a className="btn btn-big" href={href('learn', courseOf(next.id)!.id, next.id)}>Continue: {next.title} →</a> : <a className="btn btn-big" href={href('learn', 'path')}>Start with the guided foundation →</a>} <span className="meta">{done} of {ALL.length} course lessons done</span></p>
       <div className="lc-list">
@@ -119,6 +124,7 @@ function Player({ courseId, l }: { courseId: string; l: CourseLesson }) {
 export default function Learn({ parts }: { parts: string[] }) {
   const [course, lesson] = parts;
   if (!course || course === 'sources') return <Hub />;
+  if (course === 'curriculum') return <Curriculum key={lesson || 'hub'} id={lesson} />;
   if (course === 'path') return <Foundation key={lesson} id={lesson} />;
   if (!lesson) return <CoursePage id={course} />;
   const l = courseById(course)?.lessons.find(x => x.id === lesson);
